@@ -4,80 +4,249 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>FINGER BATTLE</title>
 <meta name="theme-color" content="#080d1b">
+<title>FINGER BATTLE</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#080d1b;color:white;font-family:system-ui,-apple-system,sans-serif;text-align:center}
+body{
+ margin:0;background:#080d1b;color:#fff;
+ font-family:system-ui,-apple-system,sans-serif;
+ text-align:center
+}
 button{font:inherit;cursor:pointer;touch-action:manipulation}
 .screen{display:none;min-height:100dvh;padding:24px 16px 45px}
 .screen.active{display:block}
-h1{font-size:clamp(36px,10vw,58px);font-weight:1000;font-style:italic;letter-spacing:-2px;line-height:1;text-shadow:0 0 25px #158bff;margin:15px 0}
+h1{
+ font-size:clamp(38px,10vw,60px);
+ font-weight:1000;font-style:italic;
+ letter-spacing:-2px;line-height:1;
+ text-shadow:0 0 25px #158bff;margin:22px 0
+}
 h2{letter-spacing:2px}
 .sub{color:#a9b9d9;font-size:13px}
-.panel{background:#141e35;border:1px solid #344563;border-radius:18px;padding:18px;margin:14px auto;max-width:500px}
-.btn{display:block;width:100%;max-width:460px;margin:12px auto;padding:17px;border:1px solid #4c8fe7;border-radius:13px;background:linear-gradient(135deg,#173e83,#087ad1);color:white;font-weight:900;letter-spacing:1px;box-shadow:0 5px 20px #007aff33}
+.panel{
+ background:#141e35;border:1px solid #344563;
+ border-radius:18px;padding:18px;
+ margin:14px auto;max-width:500px
+}
+.btn{
+ display:block;width:100%;max-width:460px;
+ margin:12px auto;padding:17px;
+ border:1px solid #4c8fe7;border-radius:13px;
+ background:linear-gradient(135deg,#173e83,#087ad1);
+ color:white;font-weight:900;letter-spacing:1px;
+ box-shadow:0 5px 20px #007aff33
+}
 .btn:active{transform:scale(.97)}
 .btn.secondary{background:#19223b;border-color:#53627d}
-.btn.gold{background:linear-gradient(135deg,#71501b,#bc862d);border-color:#f7d27a}
+.btn.gold{
+ background:linear-gradient(135deg,#71501b,#bc862d);
+ border-color:#f7d27a
+}
 .btn.small{padding:11px}
-.hero{height:38vh;min-height:245px;max-height:380px;position:relative;overflow:hidden;margin:20px -16px;background:radial-gradient(ellipse at 50% 55%,#ac48db77,transparent 25%),linear-gradient(100deg,#042c5b,#080d1b 49%,#4b0919);border-block:1px solid #344563}
-.hero:before,.hero:after{content:"";position:absolute;top:12%;width:55%;height:70%;border-radius:50%;filter:blur(26px)}
-.hero:before{left:-22%;background:#008dff66}
-.hero:after{right:-22%;background:#ff302d66}
-.fist{position:absolute;top:32%;width:42%;height:100px;border-radius:38px 40px 20px 20px;transform:rotate(-20deg);background:linear-gradient(135deg,#86dfff,#1462ae 65%,#051c43);box-shadow:0 0 30px #00baff,0 0 70px #008aff}
-.fist.left{left:-5%;clip-path:polygon(0 25%,40% 15%,45% 0,58% 5%,62% 22%,75% 12%,85% 24%,100% 48%,84% 75%,35% 95%,0 85%)}
-.fist.right{right:-5%;transform:scaleX(-1) rotate(-20deg);background:linear-gradient(135deg,#ffcb93,#f94b31 65%,#5d0713);box-shadow:0 0 35px #ff401d,0 0 70px #ff2c18;clip-path:polygon(0 25%,40% 15%,45% 0,58% 5%,62% 22%,75% 12%,85% 24%,100% 48%,84% 75%,35% 95%,0 85%)}
-.clash{position:absolute;left:50%;top:50%;width:75px;height:75px;transform:translate(-50%,-50%);border-radius:50%;background:white;box-shadow:0 0 20px white,0 0 50px #bfaaff,0 0 100px #ae68ff;animation:pulse 1.5s infinite alternate}
-@keyframes pulse{to{transform:translate(-50%,-50%) scale(.65);opacity:.7}}
-.heroLabel{position:absolute;bottom:12px;width:100%;font-size:12px;letter-spacing:5px;color:#d6dcff}
-.topbar{display:flex;justify-content:space-between;align-items:center;max-width:500px;margin:auto}
+.topbar{
+ display:flex;justify-content:space-between;
+ align-items:center;max-width:500px;margin:auto
+}
 .coin{color:#ffd36a;font-weight:bold}
-.hands{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:500px;margin:14px auto}
-.hand{position:relative;min-height:155px;border:2px solid #315d8a;border-radius:18px;background:linear-gradient(160deg,#192a4b,#0d1628);color:white;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;touch-action:none;user-select:none;-webkit-user-select:none}
-.enemy .hand{border-color:#9e3e54;background:linear-gradient(160deg,#40202e,#160f20)}
-.hand.selected{border-color:#52f1ff;box-shadow:0 0 25px #00cfff99;transform:scale(1.03)}
+.hero{
+ height:37vh;min-height:260px;max-height:390px;
+ position:relative;overflow:hidden;
+ margin:20px -16px;
+ background:
+ linear-gradient(90deg,#063c83,#080d1b 50%,#701223);
+ border-block:1px solid #344563
+}
+.hero img{
+ width:100%;height:100%;object-fit:cover;
+ object-position:center
+}
+.hero:after{
+ content:"";
+ position:absolute;inset:0;
+ background:linear-gradient(
+ to bottom,#080d1b33,transparent 35%,
+ transparent 75%,#080d1b88
+ );
+ pointer-events:none
+}
+.heroLabel{
+ position:absolute;bottom:12px;width:100%;
+ font-size:12px;letter-spacing:5px;
+ text-shadow:0 0 12px black;z-index:1
+}
+.hands{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:12px;max-width:500px;margin:14px auto
+}
+.hand{
+ position:relative;min-height:155px;
+ border:2px solid #315d8a;border-radius:18px;
+ background:linear-gradient(160deg,#192a4b,#0d1628);
+ color:white;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ gap:8px;touch-action:none;user-select:none;
+ -webkit-user-select:none;
+ transition:border-color .15s,box-shadow .15s
+}
+.enemy .hand{
+ border-color:#9e3e54;
+ background:linear-gradient(160deg,#40202e,#160f20)
+}
+.hand.selected{
+ border-color:#52f1ff;
+ box-shadow:0 0 25px #00cfff99
+}
 .hand.dead{opacity:.27;filter:grayscale(1)}
-.hand.hit{animation:hit .32s}
-@keyframes hit{50%{transform:scale(1.13);filter:brightness(2)}}
-.handname{font-size:11px;color:#b3c9e8;letter-spacing:2px}
-.number{font-size:27px;font-weight:1000;color:#68dfff}
+.handname{
+ font-size:11px;color:#b3c9e8;letter-spacing:2px
+}
+.number{
+ font-size:27px;font-weight:1000;color:#68dfff
+}
 .enemy .number{color:#ff7d99}
-.fingers{display:flex;align-items:end;justify-content:center;height:65px;gap:5px}
-.finger{width:13px;height:49px;border-radius:10px 10px 5px 5px;background:linear-gradient(90deg,#1282bb,#8cecff,#1760b0);box-shadow:0 0 11px #15c9ff}
-.enemy .finger{background:linear-gradient(90deg,#b42b46,#ffb18d,#ac2237);box-shadow:0 0 11px #ff4162}
+.fingers{
+ display:flex;align-items:end;
+ justify-content:center;height:65px;gap:5px
+}
+.finger{
+ width:13px;height:49px;
+ border-radius:10px 10px 5px 5px;
+ background:linear-gradient(
+ 90deg,#1282bb,var(--nail,#8cecff),#1760b0
+ );
+ box-shadow:0 0 11px #15c9ff
+}
+.enemy .finger{
+ background:linear-gradient(
+ 90deg,#b42b46,#ffb18d,#ac2237
+ );
+ box-shadow:0 0 11px #ff4162
+}
 .finger:nth-child(2){height:60px}
 .finger:nth-child(3){height:55px}
 .finger:nth-child(4){height:42px}
-.status{padding:12px;color:#f5d37d;min-height:47px;font-weight:bold}
-.specials{display:grid;grid-template-columns:1fr 1fr;gap:9px;max-width:500px;margin:auto}
-.specials button{background:#302347;border:1px solid #a36aff;border-radius:10px;color:#f5e5ff;padding:12px 5px;font-size:13px;font-weight:bold}
+.status{
+ padding:12px;color:#f5d37d;
+ min-height:47px;font-weight:bold
+}
+.specials{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:9px;max-width:500px;margin:auto
+}
+.specials button{
+ background:#302347;border:1px solid #a36aff;
+ border-radius:10px;color:#f5e5ff;
+ padding:12px 5px;font-size:13px;font-weight:bold
+}
 .specials button:disabled{opacity:.25}
-.option{background:#1b2945;border:1px solid #4c648c;border-radius:12px;padding:16px;margin:9px auto;max-width:460px;width:100%;color:white;text-align:left}
+.option{
+ background:#1b2945;border:1px solid #4c648c;
+ border-radius:12px;padding:16px;margin:9px auto;
+ max-width:460px;width:100%;color:white;
+ text-align:left
+}
 .option strong{display:block}
 .option span{font-size:12px;color:#b6c5dd}
-.shopItem{display:flex;justify-content:space-between;align-items:center;text-align:left;gap:10px}
-.shopItem button{padding:10px;background:#72511c;color:white;border:1px solid gold;border-radius:9px}
-.notice{font-size:12px;color:#8ea2c7;margin-top:18px}
+.shopItem{
+ display:flex;justify-content:space-between;
+ align-items:center;text-align:left;gap:10px
+}
+.shopItem button{
+ padding:10px;background:#72511c;color:white;
+ border:1px solid gold;border-radius:9px
+}
+.notice{
+ font-size:12px;color:#8ea2c7;margin-top:18px
+}
+.splitPanel{
+ max-width:500px;margin:12px auto;
+ padding:14px;border:1px solid #497ca1;
+ border-radius:14px;background:#122239
+}
+.splitOptions{
+ display:flex;gap:8px;justify-content:center;
+ flex-wrap:wrap;margin-top:10px
+}
+.splitOptions button{
+ padding:11px 16px;background:#1a5577;
+ border:1px solid #6be5ff;border-radius:10px;
+ color:white;font-weight:bold
+}
+.splitOptions button:disabled{opacity:.3}
+.battlefield{position:relative;overflow:visible}
+.hand.attacking{
+ z-index:20;
+ animation:attackMove .48s ease-in-out
+}
+.hand.defending{
+ z-index:10;
+ animation:defendMove .48s ease-in-out
+}
+@keyframes attackMove{
+ 0%{transform:translate(0,0) scale(1)}
+ 45%{
+ transform:translate(var(--dx),var(--dy))
+ scale(1.12);
+ box-shadow:0 0 40px #45dfff
+ }
+ 100%{transform:translate(0,0) scale(1)}
+}
+@keyframes defendMove{
+ 0%,100%{transform:translateX(0)}
+ 30%{transform:translateX(-12px) rotate(-8deg)}
+ 55%{transform:translateX(12px) rotate(8deg)}
+ 75%{transform:translateX(-5px)}
+}
+.impact{
+ position:fixed;width:100px;height:100px;
+ border-radius:50%;pointer-events:none;
+ z-index:100;transform:translate(-50%,-50%);
+ background:radial-gradient(
+ circle,#fff 0%,#adf6ff 20%,
+ #42bfff88 45%,transparent 75%
+ );
+ animation:impact .45s forwards
+}
+@keyframes impact{
+ from{opacity:1;scale:.3}
+ to{opacity:0;scale:2.2}
+}
+.flash{
+ position:fixed;inset:0;pointer-events:none;
+ background:#fff;opacity:0;z-index:90
+}
+.flash.on{animation:screenFlash .25s}
+@keyframes screenFlash{
+ 35%{opacity:.18}100%{opacity:0}
+}
 </style>
 </head>
 <body>
+
 <section id="home" class="screen active">
 <div class="topbar">
-<span class="coin" id="homeCoins">COINS 0</span>
-<button onclick="toggleSound()" class="btn small" style="width:auto;margin:0" id="soundBtn">SOUND ON</button>
+ <span class="coin" id="homeCoins">COINS 0</span>
+ <button onclick="toggleSound()"
+ class="btn small"
+ style="width:auto;margin:0"
+ id="soundBtn">SOUND ON</button>
 </div>
 <h1>FINGER<br>BATTLE</h1>
 <div class="sub">ゆびバトル</div>
 <div class="hero">
-<div class="fist left"></div>
-<div class="fist right"></div>
-<div class="clash"></div>
-<div class="heroLabel">BLUE VS RED</div>
+ <img src="hero.webp" alt="青と赤の指が対決">
+ <div class="heroLabel">BLUE VS RED</div>
 </div>
-<button class="btn" onclick="show('modes')">BATTLE START →</button>
-<button class="btn gold" onclick="show('shop')">SHOP / CUSTOMIZE</button>
-<button class="btn secondary" onclick="show('help')">HOW TO PLAY</button>
+<button class="btn" onclick="show('modes')">
+ BATTLE START →
+</button>
+<button class="btn gold" onclick="show('shop')">
+ SHOP / CUSTOMIZE
+</button>
+<button class="btn secondary" onclick="show('help')">
+ HOW TO PLAY
+</button>
 <div class="notice">NEON BATTLE EDITION</div>
 </section>
 
@@ -85,305 +254,701 @@ h2{letter-spacing:2px}
 <h2>SELECT MODE</h2>
 <p class="sub">バトルモードを選択</p>
 <div id="modeList"></div>
-<button class="btn secondary" onclick="show('home')">BACK</button>
+<button class="btn secondary" onclick="show('home')">
+ BACK
+</button>
 </section>
 
 <section id="battle" class="screen">
 <div class="topbar">
-<span id="turnInfo" class="sub">TURN 1</span>
-<span class="coin" id="battleCoins"></span>
-<button onclick="confirmQuit()" style="background:none;color:white;border:0">EXIT</button>
+ <span id="turnInfo" class="sub">TURN 1</span>
+ <span class="coin" id="battleCoins"></span>
+ <button onclick="confirmQuit()"
+ style="background:none;color:white;border:0">
+ EXIT
+ </button>
 </div>
+
 <h2>FINGER BATTLE</h2>
-<div id="enemies"></div>
-<div class="status" id="status">自分の手を選んでください</div>
-<div id="playerHands" class="hands"></div>
-<p class="sub">自分の手 → 相手の手をタップ<br>または自分の手から相手へスワイプ</p>
+
+<div class="battlefield" id="battlefield">
+ <div id="enemies"></div>
+ <div class="status" id="status">
+ 自分の手を選んでください
+ </div>
+ <div id="playerHands" class="hands"></div>
+</div>
+
+<p class="sub">
+ 自分の手 → 相手の手をタップ<br>
+ または自分の手から相手へスワイプ
+</p>
+
+<div class="splitPanel">
+ <strong>HAND SPLIT / 分裂</strong>
+ <div class="sub">
+ 片手が0本で、もう片方が2本以上なら使える<br>
+ 分裂するとターン終了
+ </div>
+ <div id="splitOptions" class="splitOptions"></div>
+</div>
+
 <h3>ULTIMATE SKILL</h3>
+<p class="sub">1試合に1回 / 使用後も攻撃可能</p>
 <div class="specials">
-<button onclick="skill('plus')" id="splus">覚醒 +1</button>
-<button onclick="skill('minus')" id="sminus">調律 -1</button>
-<button onclick="skill('clone')" id="sclone">分身</button>
-<button onclick="skill('area')" id="sarea">全体攻撃</button>
+ <button onclick="skill('plus')">覚醒 +1</button>
+ <button onclick="skill('minus')">調律 -1</button>
+ <button onclick="skill('clone')">復活</button>
+ <button onclick="skill('area')">全体攻撃</button>
 </div>
 </section>
 
 <section id="result" class="screen">
 <h1 id="resultTitle">VICTORY</h1>
 <div class="panel">
-<h2 id="resultMessage"></h2>
-<p id="reward"></p>
+ <h2 id="resultMessage"></h2>
+ <p id="reward"></p>
 </div>
-<button class="btn" onclick="startGame(currentMode)">RETRY</button>
-<button class="btn secondary" onclick="show('modes')">SELECT MODE</button>
-<button class="btn secondary" onclick="show('home')">HOME</button>
+<button class="btn"
+ onclick="startGame(currentMode)">RETRY</button>
+<button class="btn secondary"
+ onclick="show('modes')">SELECT MODE</button>
+<button class="btn secondary"
+ onclick="show('home')">HOME</button>
 </section>
 
 <section id="shop" class="screen">
 <h2>CUSTOMIZE SHOP</h2>
 <div class="coin" id="shopCoins"></div>
 <div id="shopList"></div>
-<button class="btn secondary" onclick="show('home')">BACK</button>
+<button class="btn secondary"
+ onclick="show('home')">BACK</button>
 </section>
 
 <section id="help" class="screen">
 <h2>HOW TO PLAY</h2>
-<div class="panel" style="text-align:left;line-height:1.9">
-最初は左右の手がそれぞれ1本。<br>
-自分の手を選び、敵の手に攻撃します。<br>
-攻撃された手は、攻撃側の指の数だけ増加します。<br>
-<strong>合計5本でその手は消滅。</strong><br>
-6本以上なら5を引きます。<br>
-両手が消えたプレイヤーは脱落です。<br>
-必殺技は1ゲームに1回だけ使えます。<br>
-勝利するとコインを獲得できます。
+<div class="panel"
+ style="text-align:left;line-height:1.9">
+ 最初は左右の手がそれぞれ1本。<br>
+ 自分の手を選び、敵の手に攻撃します。<br>
+ 攻撃された手は攻撃側の指の数だけ増加。<br>
+ <strong>合計5本でその手は消滅。</strong><br>
+ 6本以上なら5を引きます。<br>
+ 両手が消えたプレイヤーは脱落。<br><br>
+ <strong>分裂</strong><br>
+ 片手が0本で、もう片方が2本以上なら、
+ 指を左右に分けられます。<br>
+ 0・3 → 1・2<br>
+ 0・4 → 1・3 または 2・2<br>
+ 分裂するとそのターンは攻撃できません。<br>
+ CPUも分裂を使います。<br><br>
+ <strong>必殺技</strong><br>
+ 1試合に1回だけ使用できます。<br>
+ 使用後も同じターンに攻撃できます。
 </div>
-<button class="btn secondary" onclick="show('home')">BACK</button>
+<button class="btn secondary"
+ onclick="show('home')">BACK</button>
 </section>
+
+<div class="flash" id="flash"></div>
 
 <script>
 const $=id=>document.getElementById(id);
+
 const modes=[
-{name:"NORMAL",desc:"1 VS 1 / 両者1本ずつ",enemies:1,start:1},
-{name:"TRIPLE BATTLE",desc:"1 VS 1 VS 1 / 三つ巴",enemies:2,start:1},
-{name:"HARD",desc:"敵は左右2本ずつ",enemies:1,start:2},
-{name:"BOSS",desc:"敵は左右3本ずつ",enemies:1,start:3},
-{name:"SURVIVAL",desc:"自分は左手1本のみ",enemies:1,start:2,solo:true}
+ {name:"NORMAL",desc:"1 VS 1 / 両者1本ずつ",enemies:1,start:1},
+ {name:"TRIPLE BATTLE",desc:"1 VS 1 VS 1 / 三つ巴",enemies:2,start:1},
+ {name:"HARD",desc:"敵は左右2本ずつ",enemies:1,start:2},
+ {name:"BOSS",desc:"敵は左右3本ずつ",enemies:1,start:3},
+ {name:"SURVIVAL",desc:"自分は左手1本のみ",enemies:1,start:2,solo:true}
 ];
+
 const products=[
-{id:"blue",name:"CYBER BLUE",price:0,color:"#36cfff"},
-{id:"gold",name:"GOLD NAIL",price:100,color:"#ffd166"},
-{id:"purple",name:"PHANTOM PURPLE",price:200,color:"#bb75ff"},
-{id:"green",name:"VENOM GREEN",price:300,color:"#55ffb3"},
-{id:"red",name:"CRIMSON RED",price:400,color:"#ff627a"}
+ {id:"blue",name:"CYBER BLUE",price:0,color:"#36cfff"},
+ {id:"gold",name:"GOLD NAIL",price:100,color:"#ffd166"},
+ {id:"purple",name:"PHANTOM PURPLE",price:200,color:"#bb75ff"},
+ {id:"green",name:"VENOM GREEN",price:300,color:"#55ffb3"},
+ {id:"red",name:"CRIMSON RED",price:400,color:"#ff627a"}
 ];
+
 let coins=Number(localStorage.getItem("fbCoins")||0);
-let owned=JSON.parse(localStorage.getItem("fbOwned")||'["blue"]');
+let owned=JSON.parse(
+ localStorage.getItem("fbOwned")||'["blue"]'
+);
 let equipped=localStorage.getItem("fbEquipped")||"blue";
-let sound=localStorage.getItem("fbSound")!=="off";
-let currentMode=0,players=[],turn=0,selected=null,used=false,locked=false,finished=false,round=1;
+let soundEnabled=localStorage.getItem("fbSound")!=="off";
+
+let currentMode=0;
+let players=[];
+let turn=0;
+let selected=null;
+let used=false;
+let locked=false;
+let finished=false;
+let round=1;
+let gameToken=0;
 let audioContext;
+let dragOrigin=null;
+let dragPoint=null;
+
 function beep(freq=440,duration=.12){
-if(!sound)return;
-try{
-audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
-let o=audioContext.createOscillator(),g=audioContext.createGain();
-o.type="sawtooth";o.frequency.setValueAtTime(freq,audioContext.currentTime);
-o.frequency.exponentialRampToValueAtTime(Math.max(60,freq/2),audioContext.currentTime+duration);
-g.gain.setValueAtTime(.08,audioContext.currentTime);
-g.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);
-o.connect(g);g.connect(audioContext.destination);
-o.start();o.stop(audioContext.currentTime+duration);
-}catch(e){}
+ if(!soundEnabled)return;
+ try{
+  audioContext ||= new (
+   window.AudioContext||window.webkitAudioContext
+  )();
+  let o=audioContext.createOscillator();
+  let g=audioContext.createGain();
+  o.type="sawtooth";
+  o.frequency.setValueAtTime(
+   freq,audioContext.currentTime
+  );
+  o.frequency.exponentialRampToValueAtTime(
+   Math.max(60,freq/2),
+   audioContext.currentTime+duration
+  );
+  g.gain.setValueAtTime(
+   .08,audioContext.currentTime
+  );
+  g.gain.exponentialRampToValueAtTime(
+   .001,audioContext.currentTime+duration
+  );
+  o.connect(g);
+  g.connect(audioContext.destination);
+  o.start();
+  o.stop(audioContext.currentTime+duration);
+ }catch(e){}
 }
-function buzz(){if(navigator.vibrate)navigator.vibrate(35)}
+
+function buzz(){
+ if(navigator.vibrate)navigator.vibrate(35);
+}
+
 function toggleSound(){
-sound=!sound;localStorage.setItem("fbSound",sound?"on":"off");renderHeader();
+ soundEnabled=!soundEnabled;
+ localStorage.setItem(
+  "fbSound",soundEnabled?"on":"off"
+ );
+ renderHeader();
 }
+
 function renderHeader(){
-$("homeCoins").textContent="COINS "+coins;
-$("soundBtn").textContent=sound?"SOUND ON":"SOUND OFF";
+ $("homeCoins").textContent="COINS "+coins;
+ $("soundBtn").textContent=
+  soundEnabled?"SOUND ON":"SOUND OFF";
 }
+
 function show(id){
-document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
-$(id).classList.add("active");
-renderHeader();
-if(id==="shop")renderShop();
-window.scrollTo(0,0);
+ document.querySelectorAll(".screen").forEach(x=>
+  x.classList.remove("active")
+ );
+ $(id).classList.add("active");
+ renderHeader();
+ if(id==="shop")renderShop();
+ window.scrollTo(0,0);
 }
+
 $("modeList").innerHTML=modes.map((m,i)=>`
-<button class="option" onclick="startGame(${i})">
-<strong>${m.name}</strong><span>${m.desc}</span>
-</button>`).join("");
-function startGame(i){
-currentMode=i;
-const m=modes[i];
-players=[{name:"YOU",hands:[1,m.solo?0:1],human:true}];
-for(let j=0;j<m.enemies;j++){
-players.push({name:m.enemies===1?"ENEMY":"ENEMY "+(j+1),hands:[m.start,m.start],human:false});
-}
-turn=0;selected=null;used=false;locked=false;finished=false;round=1;
-show("battle");render();
-}
-function alive(p){return p.hands.some(n=>n>0)}
-function remaining(){return players.filter(alive)}
-function fingers(n,enemy){
-if(!n)return '<span style="font-size:27px;color:#627087">×</span>';
-return '<div class="fingers">'+Array.from({length:n},()=>'<span class="finger"></span>').join("")+'</div>';
-}
-function handHTML(p,h){
-let n=players[p].hands[h],enemy=p!==0;
-return `<button class="hand ${n===0?"dead":""} ${selected===h&&!enemy?"selected":""}"
-data-p="${p}" data-h="${h}"
-style="${!enemy?`--nail:${products.find(x=>x.id===equipped)?.color||"#36cfff"}`:""}"
-onclick="tapHand(${p},${h})">
-<span class="handname">${h===0?"LEFT":"RIGHT"}</span>
-${fingers(n,enemy)}
-<span class="number">${n}</span>
-</button>`;
-}
-function render(){
-$("turnInfo").textContent="TURN "+round;
-$("battleCoins").textContent="COINS "+coins;
-$("enemies").innerHTML=players.slice(1).map((p,j)=>`
-<div class="sub">${p.name}${alive(p)?"":" - DEFEATED"}</div>
-<div class="hands enemy">${handHTML(j+1,0)}${handHTML(j+1,1)}</div>
+ <button class="option" onclick="startGame(${i})">
+ <strong>${m.name}</strong>
+ <span>${m.desc}</span>
+ </button>
 `).join("");
-$("playerHands").innerHTML=handHTML(0,0)+handHTML(0,1);
-document.querySelectorAll(".specials button").forEach(b=>b.disabled=used||locked||finished||turn!==0);
-document.querySelectorAll(".hand").forEach(el=>{
-el.addEventListener("pointerdown",dragStart);
-el.addEventListener("pointerup",dragEnd);
-});
+
+function startGame(i){
+ gameToken++;
+ currentMode=i;
+ const m=modes[i];
+ players=[
+  {name:"YOU",hands:[1,m.solo?0:1],human:true}
+ ];
+ for(let j=0;j<m.enemies;j++){
+  players.push({
+   name:m.enemies===1?"ENEMY":"ENEMY "+(j+1),
+   hands:[m.start,m.start],
+   human:false
+  });
+ }
+ turn=0;
+ selected=null;
+ used=false;
+ locked=false;
+ finished=false;
+ round=1;
+ show("battle");
+ status("YOUR TURN");
+ render();
 }
-function status(t){$("status").textContent=t}
+
+function alive(p){
+ return p.hands.some(n=>n>0);
+}
+
+function normalize(n){
+ return n>=5?n%5:n;
+}
+
+function fingers(n){
+ if(!n)return '<span style="font-size:27px;color:#627087">×</span>';
+ return '<div class="fingers">'+
+  Array.from({length:n},()=>
+   '<span class="finger"></span>'
+  ).join("")+'</div>';
+}
+
+function handHTML(p,h){
+ let n=players[p].hands[h];
+ let enemy=p!==0;
+ let color=products.find(x=>x.id===equipped)?.color
+  ||"#36cfff";
+ return `
+ <button
+ class="hand ${n===0?"dead":""}
+ ${selected===h&&!enemy?"selected":""}"
+ data-p="${p}" data-h="${h}"
+ style="--nail:${color}"
+ onclick="tapHand(${p},${h})">
+ <span class="handname">${h===0?"LEFT":"RIGHT"}</span>
+ ${fingers(n)}
+ <span class="number">${n}</span>
+ </button>`;
+}
+
+function status(t){
+ $("status").textContent=t;
+}
+
+function splitChoices(p){
+ const hands=players[p].hands;
+ const zero=hands.indexOf(0);
+ if(zero<0)return [];
+ const other=1-zero;
+ const n=hands[other];
+ if(n<2)return [];
+ let choices=[];
+ for(let a=1;a<=Math.floor(n/2);a++){
+  let b=n-a;
+  let result=zero===0?[a,b]:[b,a];
+  choices.push(result);
+ }
+ return choices;
+}
+
+function renderSplit(){
+ const el=$("splitOptions");
+ if(turn!==0||locked||finished){
+  el.innerHTML='<span class="sub">自分のターンで使用できます</span>';
+  return;
+ }
+ let choices=splitChoices(0);
+ if(!choices.length){
+  el.innerHTML='<span class="sub">現在は分裂できません</span>';
+  return;
+ }
+ el.innerHTML=choices.map(c=>`
+ <button onclick="splitHand(0,${c[0]},${c[1]})">
+ ${c[0]}・${c[1]}
+ </button>
+ `).join("");
+}
+
+function render(){
+ $("turnInfo").textContent="TURN "+round;
+ $("battleCoins").textContent="COINS "+coins;
+ $("enemies").innerHTML=players.slice(1).map((p,j)=>`
+ <div class="sub">
+ ${p.name}${alive(p)?"":" - DEFEATED"}
+ </div>
+ <div class="hands enemy">
+ ${handHTML(j+1,0)}
+ ${handHTML(j+1,1)}
+ </div>
+ `).join("");
+ $("playerHands").innerHTML=
+  handHTML(0,0)+handHTML(0,1);
+ document.querySelectorAll(".specials button")
+ .forEach(b=>
+  b.disabled=used||locked||finished||turn!==0
+ );
+ renderSplit();
+ document.querySelectorAll(".hand").forEach(el=>{
+  el.addEventListener("pointerdown",dragStart);
+  el.addEventListener("pointerup",dragEnd);
+ });
+}
+
 function tapHand(p,h){
-if(locked||finished||turn!==0)return;
-if(players[p].hands[h]===0)return;
-if(p===0){
-selected=selected===h?null:h;
-status(selected===null?"自分の手を選択":"攻撃する相手の手を選んで！");
-render();return;
+ if(locked||finished||turn!==0)return;
+ if(players[p].hands[h]===0)return;
+ if(p===0){
+  selected=selected===h?null:h;
+  status(selected===null?
+   "自分の手を選択":
+   "攻撃する相手の手を選んで！");
+  render();
+  return;
+ }
+ if(selected===null){
+  status("まず自分の手を選んで！");
+  return;
+ }
+ attack(0,selected,p,h);
 }
-if(selected===null){status("まず自分の手を選んで！");return}
-attack(0,selected,p,h);
-}
-let dragOrigin=null,dragMoved=false;
+
 function dragStart(e){
-if(e.pointerType==="mouse"&&e.button!==0)return;
-let p=Number(e.currentTarget.dataset.p),h=Number(e.currentTarget.dataset.h);
-if(p===0&&turn===0&&!locked&&players[0].hands[h]>0){
-dragOrigin=h;dragMoved=false;
+ let p=Number(e.currentTarget.dataset.p);
+ let h=Number(e.currentTarget.dataset.h);
+ if(p===0&&turn===0&&!locked&&players[0].hands[h]>0){
+  dragOrigin=h;
+  dragPoint={x:e.clientX,y:e.clientY};
+ }
 }
-}
+
 function dragEnd(e){
-if(dragOrigin===null)return;
-let el=document.elementFromPoint(e.clientX,e.clientY)?.closest(".hand");
-if(el&&Number(el.dataset.p)>0){
-let p=Number(el.dataset.p),h=Number(el.dataset.h);
-if(players[p].hands[h]>0&&!locked&&turn===0){
-dragMoved=true;
-const from=dragOrigin;
-dragOrigin=null;
-selected=null;
-attack(0,from,p,h);
-return;
+ if(dragOrigin===null)return;
+ let from=dragOrigin;
+ let distance=dragPoint?
+  Math.hypot(
+   e.clientX-dragPoint.x,
+   e.clientY-dragPoint.y
+  ):0;
+ dragOrigin=null;
+ dragPoint=null;
+ if(distance<20)return;
+ let el=document.elementFromPoint(
+  e.clientX,e.clientY
+ )?.closest(".hand");
+ if(!el)return;
+ let p=Number(el.dataset.p);
+ let h=Number(el.dataset.h);
+ if(p>0&&players[p].hands[h]>0&&!locked){
+  selected=null;
+  attack(0,from,p,h);
+ }
 }
+
+function animateAttack(from,fh,to,th,callback){
+ const a=document.querySelector(
+  `.hand[data-p="${from}"][data-h="${fh}"]`
+ );
+ const b=document.querySelector(
+  `.hand[data-p="${to}"][data-h="${th}"]`
+ );
+ if(!a||!b){
+  callback();
+  return;
+ }
+ const ar=a.getBoundingClientRect();
+ const br=b.getBoundingClientRect();
+ const ax=ar.left+ar.width/2;
+ const ay=ar.top+ar.height/2;
+ const bx=br.left+br.width/2;
+ const by=br.top+br.height/2;
+
+ a.style.setProperty("--dx",(bx-ax)*.75+"px");
+ a.style.setProperty("--dy",(by-ay)*.75+"px");
+ a.classList.add("attacking");
+
+ setTimeout(()=>{
+  b.classList.add("defending");
+  const impact=document.createElement("div");
+  impact.className="impact";
+  impact.style.left=bx+"px";
+  impact.style.top=by+"px";
+  document.body.appendChild(impact);
+  $("flash").classList.add("on");
+  beep(650,.2);
+  buzz();
+  setTimeout(()=>{
+   impact.remove();
+   $("flash").classList.remove("on");
+  },450);
+ },190);
+
+ setTimeout(callback,550);
 }
-dragOrigin=null;
-}
-function addHand(p,h,n){
-let total=players[p].hands[h]+n;
-players[p].hands[h]=total===5?0:total>5?total%5:total;
-}
+
 function attack(from,fh,to,th){
-if(locked||finished||!players[from].hands[fh]||!players[to].hands[th])return;
-locked=true;
-let power=players[from].hands[fh];
-addHand(to,th,power);
-selected=null;
-beep(600,.18);buzz();
-status(players[from].name+" → "+players[to].name+"  +"+power);
-render();
-setTimeout(()=>{
-if(checkEnd())return;
-turn=(turn+1)%players.length;
-while(!alive(players[turn]))turn=(turn+1)%players.length;
-if(turn===0){round++;locked=false;status("YOUR TURN");render()}
-else{render();setTimeout(cpuMove,650)}
-},450);
+ if(
+  locked||finished||from===to||
+  !players[from].hands[fh]||
+  !players[to].hands[th]
+ )return;
+
+ locked=true;
+ let power=players[from].hands[fh];
+ let before=players[to].hands[th];
+ let token=gameToken;
+
+ status(players[from].name+" ATTACK!");
+
+ animateAttack(from,fh,to,th,()=>{
+  if(token!==gameToken||finished)return;
+
+  players[to].hands[th]=normalize(before+power);
+  let after=players[to].hands[th];
+
+  selected=null;
+  status(
+   players[from].name+" → "+players[to].name+
+   "  "+before+" → "+(after||"KO")
+  );
+  render();
+
+  setTimeout(()=>{
+   if(token!==gameToken||finished)return;
+   if(checkEnd())return;
+   nextTurn(from);
+  },350);
+ });
 }
+
+function nextTurn(actor){
+ if(finished)return;
+ turn=(actor+1)%players.length;
+ while(!alive(players[turn])){
+  turn=(turn+1)%players.length;
+ }
+ if(turn===0){
+  round++;
+  locked=false;
+  selected=null;
+  status("YOUR TURN");
+  render();
+ }else{
+  locked=true;
+  status(players[turn].name+" THINKING...");
+  render();
+  let token=gameToken;
+  setTimeout(()=>{
+   if(token===gameToken&&!finished)cpuMove();
+  },650);
+ }
+}
+
+function splitHand(p,left,right){
+ if(finished)return;
+ if(p!==turn)return;
+ if(p===0&&locked)return;
+
+ const valid=splitChoices(p).some(c=>
+  c[0]===left&&c[1]===right
+ );
+ if(!valid)return;
+
+ locked=true;
+ players[p].hands=[left,right];
+ selected=null;
+ beep(850,.2);
+ buzz();
+
+ status(players[p].name+
+  " SPLIT! "+left+"・"+right);
+ render();
+
+ let token=gameToken;
+ setTimeout(()=>{
+  if(token!==gameToken||finished)return;
+  nextTurn(p);
+ },700);
+}
+
 function cpuMove(){
-if(finished)return;
-if(turn===0){locked=false;render();return}
-const p=turn;
-let own=players[p].hands.map((n,h)=>({n,h})).filter(x=>x.n);
-let targets=[];
-players.forEach((v,i)=>{
-if(i!==p&&alive(v))v.hands.forEach((n,h)=>{if(n)targets.push({p:i,h,n})});
-});
-if(!own.length||!targets.length){locked=false;checkEnd();return}
-let best=null,bestScore=-Infinity;
-for(const a of own)for(const t of targets){
-let sum=t.n+a.n;
-let score=(sum===5?20:sum>5?5:sum)+Math.random()*5;
-if(t.p===0)score+=2;
-if(score>bestScore){bestScore=score;best={a,t}}
+ if(finished||turn===0)return;
+ let p=turn;
+
+ let choices=splitChoices(p);
+
+ if(choices.length){
+  let n=Math.max(...players[p].hands);
+  let chance=n>=4?.65:.38;
+  if(Math.random()<chance){
+   let choice=choices[choices.length-1];
+   locked=false;
+   splitHand(p,choice[0],choice[1]);
+   return;
+  }
+ }
+
+ let own=players[p].hands.map((n,h)=>({n,h}))
+  .filter(x=>x.n);
+
+ let targets=[];
+ players.forEach((v,i)=>{
+  if(i!==p&&alive(v)){
+   v.hands.forEach((n,h)=>{
+    if(n)targets.push({p:i,h,n});
+   });
+  }
+ });
+
+ if(!own.length||!targets.length){
+  checkEnd();
+  return;
+ }
+
+ let best=null;
+ let bestScore=-Infinity;
+
+ for(const a of own){
+  for(const t of targets){
+   let sum=t.n+a.n;
+   let result=normalize(sum);
+   let score=
+    (result===0?20:result>t.n?5:1)+
+    Math.random()*5;
+   if(t.p===0)score+=2;
+   if(score>bestScore){
+    bestScore=score;
+    best={a,t};
+   }
+  }
+ }
+
+ locked=false;
+ attack(p,best.a.h,best.t.p,best.t.h);
 }
-locked=false;
-attack(p,best.a.h,best.t.p,best.t.h);
-}
+
 function checkEnd(){
-if(!alive(players[0])){endGame(false);return true}
-if(players.slice(1).every(p=>!alive(p))){endGame(true);return true}
-return false;
+ if(!alive(players[0])){
+  endGame(false);
+  return true;
+ }
+ if(players.slice(1).every(p=>!alive(p))){
+  endGame(true);
+  return true;
+ }
+ return false;
 }
+
 function endGame(win){
-finished=true;locked=true;
-let reward=win?modes[currentMode].enemies*50+25:0;
-coins+=reward;localStorage.setItem("fbCoins",coins);
-$("resultTitle").textContent=win?"VICTORY":"DEFEAT";
-$("resultTitle").style.color=win?"#65e6ff":"#ff6486";
-$("resultMessage").textContent=win?"敵を撃破！":"次こそ勝利を！";
-$("reward").textContent=win?"獲得コイン +"+reward:"獲得コイン 0";
-beep(win?880:170,.45);
-setTimeout(()=>show("result"),400);
+ finished=true;
+ locked=true;
+ let reward=win?
+  modes[currentMode].enemies*50+25:0;
+
+ coins+=reward;
+ localStorage.setItem("fbCoins",coins);
+
+ $("resultTitle").textContent=
+  win?"VICTORY":"DEFEAT";
+ $("resultTitle").style.color=
+  win?"#65e6ff":"#ff6486";
+ $("resultMessage").textContent=
+  win?"敵を撃破！":"次こそ勝利を！";
+ $("reward").textContent=
+  "獲得コイン +"+reward;
+
+ beep(win?880:170,.45);
+
+ let token=gameToken;
+ setTimeout(()=>{
+  if(token===gameToken)show("result");
+ },400);
 }
+
 function skill(type){
-if(used||locked||finished||turn!==0)return;
-let active=players[0].hands.map((n,h)=>({n,h})).filter(x=>x.n);
-if(!active.length)return;
-let h=selected!==null&&players[0].hands[selected]?selected:active[0].h;
-if(type==="plus")addHand(0,h,1);
-if(type==="minus"){
-players[0].hands[h]=Math.max(0,players[0].hands[h]-1);
-if(!alive(players[0])){status("最後の手は減らせません");players[0].hands[h]=1;return}
+ if(used||locked||finished||turn!==0)return;
+
+ let hands=players[0].hands;
+ let active=hands.map((n,h)=>({n,h}))
+  .filter(x=>x.n);
+ if(!active.length)return;
+
+ let h=selected!==null&&hands[selected]?
+  selected:active[0].h;
+
+ if(type==="clone"){
+  let empty=hands.indexOf(0);
+  if(empty<0){
+   status("復活には0本の手が必要！");
+   return;
+  }
+  hands[empty]=hands[1-empty];
+ }
+
+ if(type==="plus"){
+  hands[h]=normalize(hands[h]+1);
+ }
+
+ if(type==="minus"){
+  if(hands[h]<=1){
+   status("1本の手には使用できません");
+   return;
+  }
+  hands[h]--;
+ }
+
+ if(type==="area"){
+  players.slice(1).forEach((p,j)=>{
+   p.hands.forEach((n,k)=>{
+    if(n)p.hands[k]=normalize(n+1);
+   });
+  });
+ }
+
+ used=true;
+ selected=null;
+ beep(1000,.3);
+ buzz();
+ status("ULTIMATE SKILL 発動！ 続けて攻撃できる！");
+ render();
+
+ if(checkEnd())return;
+
+ // 必殺技ではターンを進めない
+ // このままプレイヤーが通常攻撃できる
 }
-if(type==="clone"){
-let empty=players[0].hands.indexOf(0);
-if(empty<0){status("分身には空いている手が必要！");return}
-players[0].hands[empty]=players[0].hands[h];
-}
-if(type==="area"){
-players.slice(1).forEach((p,j)=>p.hands.forEach((n,k)=>{if(n)addHand(j+1,k,1)}));
-}
-used=true;selected=null;
-beep(1000,.3);buzz();status("ULTIMATE SKILL 発動！");
-render();
-if(checkEnd())return;
-locked=true;
-setTimeout(()=>{
-turn=1;
-while(!alive(players[turn]))turn=(turn+1)%players.length;
-if(turn===0){locked=false;round++;render();return}
-render();setTimeout(cpuMove,600);
-},650);
-}
+
 function renderShop(){
-$("shopCoins").textContent="所持コイン "+coins;
-$("shopList").innerHTML=products.map(x=>{
-let has=owned.includes(x.id);
-return `<div class="panel shopItem">
-<div><strong style="color:${x.color}">${x.name}</strong>
-<span class="sub">${has?"購入済み":x.price+" COINS"}</span></div>
-<button onclick="buy('${x.id}')">${equipped===x.id?"装備中":has?"装備":"購入"}</button>
-</div>`;
-}).join("");
+ $("shopCoins").textContent="所持コイン "+coins;
+ $("shopList").innerHTML=products.map(x=>{
+  let has=owned.includes(x.id);
+  return `
+  <div class="panel shopItem">
+   <div>
+    <strong style="color:${x.color}">
+    ${x.name}</strong>
+    <span class="sub">
+    ${has?"購入済み":x.price+" COINS"}
+    </span>
+   </div>
+   <button onclick="buy('${x.id}')">
+   ${equipped===x.id?"装備中":has?"装備":"購入"}
+   </button>
+  </div>`;
+ }).join("");
 }
+
 function buy(id){
-let x=products.find(p=>p.id===id);
-if(!owned.includes(id)){
-if(coins<x.price){alert("コインが足りません");return}
-coins-=x.price;owned.push(id);
-localStorage.setItem("fbCoins",coins);
-localStorage.setItem("fbOwned",JSON.stringify(owned));
+ let x=products.find(p=>p.id===id);
+ if(!owned.includes(id)){
+  if(coins<x.price){
+   alert("コインが足りません");
+   return;
+  }
+  coins-=x.price;
+  owned.push(id);
+  localStorage.setItem("fbCoins",coins);
+  localStorage.setItem(
+   "fbOwned",JSON.stringify(owned)
+  );
+ }
+ equipped=id;
+ localStorage.setItem("fbEquipped",id);
+ renderShop();
+ renderHeader();
+ beep(700,.15);
 }
-equipped=id;localStorage.setItem("fbEquipped",id);
-renderShop();renderHeader();beep(700,.15);
-}
+
 function confirmQuit(){
-if(confirm("バトルを終了しますか？")){finished=true;show("home")}
+ if(confirm("バトルを終了しますか？")){
+  gameToken++;
+  finished=true;
+  show("home");
+ }
 }
+
 renderHeader();
 </script>
 </body>
