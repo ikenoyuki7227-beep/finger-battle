@@ -9,93 +9,211 @@
 <style>
 *{box-sizing:border-box}
 :root{--blue:#48cfff;--red:#ff6685;--gold:#ffd36a}
-html,body{margin:0;min-height:100%;background:#080d1b;color:#fff;font-family:system-ui,-apple-system,sans-serif}
+html,body{
+ margin:0;min-height:100%;background:#080d1b;
+ color:#fff;font-family:system-ui,-apple-system,sans-serif
+}
 body{text-align:center}
 button{font:inherit;cursor:pointer;touch-action:manipulation}
 button:disabled{opacity:.32;cursor:default}
 .screen{display:none;min-height:100dvh;padding:18px 15px 35px}
 .screen.active{display:block}
-h1{font-size:clamp(38px,10vw,58px);font-weight:1000;font-style:italic;letter-spacing:-2px;line-height:1;text-shadow:0 0 25px #158bff;margin:24px 0}
+h1{
+ font-size:clamp(38px,10vw,58px);font-weight:1000;
+ font-style:italic;letter-spacing:-2px;line-height:1;
+ text-shadow:0 0 25px #158bff;margin:24px 0
+}
 h2{font-size:23px;letter-spacing:2px}
 .sub{font-size:12px;color:#a9b9d9}
 .coin{color:var(--gold);font-weight:900}
-.topbar{display:flex;justify-content:space-between;align-items:center;max-width:500px;margin:auto}
-.btn{display:block;width:100%;max-width:460px;margin:12px auto;padding:16px;border:1px solid #4c8fe7;border-radius:13px;background:linear-gradient(135deg,#173e83,#087ad1);color:white;font-weight:900;letter-spacing:1px}
+.topbar{
+ display:flex;justify-content:space-between;
+ align-items:center;max-width:500px;margin:auto
+}
+.btn{
+ display:block;width:100%;max-width:460px;
+ margin:12px auto;padding:16px;
+ border:1px solid #4c8fe7;border-radius:13px;
+ background:linear-gradient(135deg,#173e83,#087ad1);
+ color:white;font-weight:900;letter-spacing:1px
+}
 .btn.secondary{background:#19223b;border-color:#53627d}
-.btn.gold{background:linear-gradient(135deg,#71501b,#bc862d);border-color:#f7d27a}
+.btn.gold{
+ background:linear-gradient(135deg,#71501b,#bc862d);
+ border-color:#f7d27a
+}
 .btn.small{width:auto;margin:0;padding:10px}
-.panel{max-width:500px;margin:14px auto;padding:18px;background:#141e35;border:1px solid #344563;border-radius:16px}
-.hero{height:36vh;min-height:245px;max-height:390px;position:relative;overflow:hidden;margin:20px -15px;background:linear-gradient(90deg,#063c83,#080d1b 50%,#701223)}
-.hero img{width:100%;height:100%;object-fit:cover}
-.heroLabel{position:absolute;bottom:12px;left:0;right:0;letter-spacing:5px;font-size:12px;text-shadow:0 0 10px #000}
-.option{display:block;width:100%;max-width:460px;margin:9px auto;padding:15px;text-align:left;background:#1b2945;border:1px solid #4c648c;border-radius:12px;color:#fff}
+.panel{
+ max-width:500px;margin:14px auto;padding:18px;
+ background:#141e35;border:1px solid #344563;
+ border-radius:16px
+}
+.hero{
+ height:33vh;min-height:220px;max-height:340px;
+ position:relative;overflow:hidden;margin:20px -15px;
+ background:linear-gradient(90deg,#063c83,#080d1b 50%,#701223)
+}
+.hero img{
+ width:100%;height:118%;
+ object-fit:cover;object-position:center top;
+ display:block
+}
+.option{
+ display:block;width:100%;max-width:460px;
+ margin:9px auto;padding:15px;text-align:left;
+ background:#1b2945;border:1px solid #4c648c;
+ border-radius:12px;color:#fff
+}
 .option strong{display:block}
 .option span{font-size:12px;color:#b6c5dd}
-.shopItem{display:flex;justify-content:space-between;align-items:center;text-align:left;gap:10px}
-.shopItem button{padding:10px;background:#72511c;color:white;border:1px solid gold;border-radius:9px}
+.shopItem{
+ display:flex;justify-content:space-between;
+ align-items:center;text-align:left;gap:10px
+}
+.shopItem button{
+ padding:10px;background:#72511c;color:white;
+ border:1px solid gold;border-radius:9px
+}
 
 /* バトル画面 */
 #battle{
- height:100dvh;
- min-height:580px;
- padding:env(safe-area-inset-top,8px) 12px max(8px,env(safe-area-inset-bottom));
- overflow:hidden;
- display:none;
- flex-direction:column;
- gap:5px;
+ height:100dvh;min-height:580px;
+ padding:env(safe-area-inset-top,8px) 12px
+ max(8px,env(safe-area-inset-bottom));
+ overflow:hidden;display:none;
+ flex-direction:column;gap:5px
 }
 #battle.active{display:flex}
-.battleTop{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;min-height:25px}
+.battleTop{
+ flex:0 0 auto;display:flex;justify-content:space-between;
+ align-items:center;font-size:12px;min-height:25px
+}
 .exit{border:0;background:transparent;color:white;font-size:12px}
-.battleTitle{flex:0 0 auto;font-size:18px;font-weight:1000;letter-spacing:2px;margin:0}
-.teamLabel{font-size:11px;letter-spacing:2px;color:#a7b9d8;margin:0}
-.handRow{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;max-width:500px;margin:0 auto;min-height:0;flex:1 1 0}
+.battleTitle{
+ flex:0 0 auto;font-size:18px;
+ font-weight:1000;letter-spacing:2px;margin:0
+}
+.teamLabel{
+ font-size:11px;letter-spacing:2px;
+ color:#a7b9d8;margin:0
+}
+.handRow{
+ display:grid;grid-template-columns:1fr 1fr;
+ gap:9px;width:100%;max-width:500px;
+ margin:0 auto;min-height:0;flex:1 1 0
+}
 .hand{
- position:relative;
- border:2px solid #315d8a;
+ position:relative;border:2px solid #315d8a;
  border-radius:15px;
  background:linear-gradient(160deg,#192a4b,#0d1628);
- color:white;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- gap:0;
- min-width:0;
- min-height:0;
- overflow:visible;
- touch-action:none;
- user-select:none;
- -webkit-user-select:none;
+ color:white;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ min-width:0;min-height:0;overflow:visible;
+ touch-action:none;user-select:none;
+ -webkit-user-select:none
 }
-.enemy .hand{border-color:#9e3e54;background:linear-gradient(160deg,#40202e,#160f20)}
-.hand.selected{border-color:#52f1ff;box-shadow:0 0 18px #00cfff99}
+.enemy .hand{
+ border-color:#9e3e54;
+ background:linear-gradient(160deg,#40202e,#160f20)
+}
+.hand.selected{
+ border-color:#52f1ff;
+ box-shadow:0 0 18px #00cfff99
+}
 .hand.dead{opacity:.3;filter:grayscale(1)}
-.handname{font-size:10px;color:#b3c9e8;letter-spacing:2px}
-.handGraphic{display:block;height:clamp(65px,13vh,112px);width:100%;max-width:150px;overflow:visible}
-.handNumber{font-size:21px;font-weight:1000;color:#68dfff;line-height:1.1}
+.handname{
+ font-size:10px;color:#b3c9e8;letter-spacing:2px
+}
+.handGraphic{
+ display:block;height:clamp(65px,13vh,112px);
+ width:100%;max-width:150px;overflow:visible
+}
+.handNumber{
+ font-size:21px;font-weight:1000;
+ color:#68dfff;line-height:1.1
+}
 .enemy .handNumber{color:#ff7d99}
 .hand svg{filter:drop-shadow(0 0 7px var(--glow,#45cfff))}
 .enemy .hand svg{filter:drop-shadow(0 0 7px #ff476a)}
-.battleStatus{flex:0 0 auto;font-size:12px;color:#f5d37d;font-weight:bold;min-height:19px;display:flex;align-items:center;justify-content:center}
-.splitBox{flex:0 0 auto;border:1px solid #315c7d;background:#102039;border-radius:11px;padding:6px}
-.actionHeading{font-size:11px;font-weight:900;letter-spacing:1px}
+.battleStatus{
+ flex:0 0 auto;font-size:12px;color:#f5d37d;
+ font-weight:bold;min-height:19px;
+ display:flex;align-items:center;justify-content:center
+}
+.splitBox{
+ flex:0 0 auto;border:1px solid #315c7d;
+ background:#102039;border-radius:11px;padding:6px
+}
+.actionHeading{
+ font-size:11px;font-weight:900;letter-spacing:1px
+}
 .actionHelp{font-size:10px;color:#aabbd2}
-.splitChoices{display:flex;justify-content:center;gap:7px;margin-top:5px;min-height:30px;align-items:center}
-.splitChoices button{background:#1b648b;border:1px solid #69dcff;color:white;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:bold}
-.skills{flex:0 0 auto;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-.skills button{padding:9px 2px;border:1px solid #9a67df;border-radius:9px;background:#302347;color:#f5e5ff;font-size:11px;font-weight:bold;line-height:1.25}
-.skillHeading{flex:0 0 auto;font-size:11px;color:#bd9bff;margin:0}
-#enemies{flex:1 1 0;min-height:0;display:flex;flex-direction:column;gap:3px}
-.enemyUnit{display:flex;flex-direction:column;flex:1 1 0;min-height:0;gap:3px}
+.splitChoices{
+ display:flex;justify-content:center;gap:7px;
+ margin-top:5px;min-height:30px;align-items:center
+}
+.splitChoices button{
+ background:#1b648b;border:1px solid #69dcff;
+ color:white;border-radius:8px;padding:6px 14px;
+ font-size:12px;font-weight:bold
+}
+.skills{
+ flex:0 0 auto;display:grid;
+ grid-template-columns:repeat(4,minmax(0,1fr));gap:5px
+}
+.skills button{
+ padding:9px 2px;border:1px solid #9a67df;
+ border-radius:9px;background:#302347;
+ color:#f5e5ff;font-size:11px;
+ font-weight:bold;line-height:1.25
+}
+.skillHeading{
+ flex:0 0 auto;font-size:11px;
+ color:#bd9bff;margin:0
+}
+#enemies{
+ flex:1 1 0;min-height:0;
+ display:flex;flex-direction:column;gap:3px
+}
+.enemyUnit{
+ display:flex;flex-direction:column;
+ flex:1 1 0;min-height:0;gap:3px
+}
 #playerHands{flex:1 1 0}
-.hint{font-size:10px;color:#8ea3c5;flex:0 0 auto;margin:0}
-.impact{position:fixed;width:85px;height:85px;transform:translate(-50%,-50%);pointer-events:none;z-index:100;border-radius:50%;background:radial-gradient(circle,#fff,#8cefff 25%,#258cff99 50%,transparent 75%);animation:impact .4s forwards}
-@keyframes impact{from{opacity:1;scale:.4}to{opacity:0;scale:2}}
-.hand.attacking{z-index:20;animation:attackMove .48s ease-in-out}
-.hand.defending{z-index:10;animation:defendMove .48s ease-in-out}
-@keyframes attackMove{0%,100%{transform:translate(0,0)}45%{transform:translate(var(--dx),var(--dy)) scale(1.08)}}
-@keyframes defendMove{0%,100%{transform:translateX(0)}30%{transform:translateX(-10px) rotate(-6deg)}60%{transform:translateX(10px) rotate(6deg)}}
+.hint{
+ font-size:10px;color:#8ea3c5;
+ flex:0 0 auto;margin:0
+}
+.impact{
+ position:fixed;width:85px;height:85px;
+ transform:translate(-50%,-50%);
+ pointer-events:none;z-index:100;border-radius:50%;
+ background:radial-gradient(
+ circle,#fff,#8cefff 25%,#258cff99 50%,transparent 75%
+ );
+ animation:impact .4s forwards
+}
+@keyframes impact{
+ from{opacity:1;scale:.4}
+ to{opacity:0;scale:2}
+}
+.hand.attacking{
+ z-index:20;animation:attackMove .48s ease-in-out
+}
+.hand.defending{
+ z-index:10;animation:defendMove .48s ease-in-out
+}
+@keyframes attackMove{
+ 0%,100%{transform:translate(0,0)}
+ 45%{
+  transform:translate(var(--dx),var(--dy)) scale(1.08)
+ }
+}
+@keyframes defendMove{
+ 0%,100%{transform:translateX(0)}
+ 30%{transform:translateX(-10px) rotate(-6deg)}
+ 60%{transform:translateX(10px) rotate(6deg)}
+}
 @media(max-height:700px){
  #battle{gap:3px}
  .handGraphic{height:clamp(48px,10vh,75px)}
@@ -114,17 +232,23 @@ h2{font-size:23px;letter-spacing:2px}
 <section id="home" class="screen active">
  <div class="topbar">
   <span class="coin" id="homeCoins">COINS 0</span>
-  <button class="btn small" id="soundBtn" onclick="toggleSound()">SOUND ON</button>
+  <button class="btn small" id="soundBtn"
+   onclick="toggleSound()">SOUND ON</button>
  </div>
  <h1>FINGER<br>BATTLE</h1>
  <div class="sub">ゆびバトル</div>
  <div class="hero">
   <img src="hero.webp" alt="青と赤の指の対決">
-  <div class="heroLabel">BLUE VS RED</div>
  </div>
- <button class="btn" onclick="show('modes')">BATTLE START →</button>
- <button class="btn gold" onclick="show('shop')">SHOP / CUSTOMIZE</button>
- <button class="btn secondary" onclick="show('help')">HOW TO PLAY</button>
+ <button class="btn" onclick="show('modes')">
+  BATTLE START →
+ </button>
+ <button class="btn gold" onclick="show('shop')">
+  SHOP / CUSTOMIZE
+ </button>
+ <button class="btn secondary" onclick="show('help')">
+  HOW TO PLAY
+ </button>
  <p class="sub">NEON BATTLE EDITION</p>
 </section>
 
@@ -132,7 +256,9 @@ h2{font-size:23px;letter-spacing:2px}
  <h2>SELECT MODE</h2>
  <p class="sub">バトルモードを選択</p>
  <div id="modeList"></div>
- <button class="btn secondary" onclick="show('home')">BACK</button>
+ <button class="btn secondary" onclick="show('home')">
+  BACK
+ </button>
 </section>
 
 <section id="battle" class="screen">
@@ -146,12 +272,16 @@ h2{font-size:23px;letter-spacing:2px}
  <div class="battleStatus" id="status">YOUR TURN</div>
  <p class="teamLabel">YOUR HANDS</p>
  <div id="playerHands" class="handRow"></div>
- <p class="hint">自分の手 → 敵の手をタップ / スワイプで攻撃</p>
+ <p class="hint">
+  自分の手 → 敵または自分の反対の手をタップ
+ </p>
  <div class="splitBox">
   <div class="actionHeading">HAND SPLIT / 分裂</div>
   <div class="splitChoices" id="splitOptions"></div>
  </div>
- <p class="skillHeading">ULTIMATE SKILL — 1試合1回・使用後も攻撃OK</p>
+ <p class="skillHeading">
+  ULTIMATE SKILL — 1試合1回・使用後も攻撃OK
+ </p>
  <div class="skills">
   <button onclick="skill('plus')">覚醒<br>＋1</button>
   <button onclick="skill('minus')">調律<br>−1</button>
@@ -166,9 +296,15 @@ h2{font-size:23px;letter-spacing:2px}
   <h2 id="resultMessage"></h2>
   <p id="reward"></p>
  </div>
- <button class="btn" onclick="startGame(currentMode)">RETRY</button>
- <button class="btn secondary" onclick="show('modes')">SELECT MODE</button>
- <button class="btn secondary" onclick="show('home')">HOME</button>
+ <button class="btn" onclick="startGame(currentMode)">
+  RETRY
+ </button>
+ <button class="btn secondary" onclick="show('modes')">
+  SELECT MODE
+ </button>
+ <button class="btn secondary" onclick="show('home')">
+  HOME
+ </button>
 </section>
 
 <section id="shop" class="screen">
@@ -176,15 +312,19 @@ h2{font-size:23px;letter-spacing:2px}
  <p class="coin" id="shopCoins"></p>
  <p class="sub">手のカラーを購入してバトルで使おう！</p>
  <div id="shopList"></div>
- <button class="btn secondary" onclick="show('home')">BACK</button>
+ <button class="btn secondary" onclick="show('home')">
+  BACK
+ </button>
 </section>
 
 <section id="help" class="screen">
  <h2>HOW TO PLAY</h2>
  <div class="panel" style="text-align:left;line-height:1.9">
-  自分の手を選び、敵の手に攻撃！<br>
-  攻撃側の指の数が相手に加算されます。<br>
-  <strong>合計5本で消滅。</strong>6本以上なら5を引きます。<br>
+  自分の手を選び、相手の手に攻撃！<br>
+  自分の反対側の手にも攻撃できます。<br>
+  攻撃側の指の数が受ける手に加算されます。<br>
+  <strong>合計5本で消滅。</strong>
+  6本以上なら5を引きます。<br>
   両手が消えたら敗北です。<br><br>
   <strong>分裂</strong><br>
   片手が0本、もう片方が2本以上なら使えます。<br>
@@ -192,9 +332,12 @@ h2{font-size:23px;letter-spacing:2px}
   0・4 → 1・3 または 2・2<br>
   分裂するとターン終了。CPUも使用します。<br><br>
   <strong>必殺技</strong><br>
-  1試合に1回使用可能。使ったあとも攻撃できます。
+  1試合に1回使用可能。
+  使ったあとも攻撃できます。
  </div>
- <button class="btn secondary" onclick="show('home')">BACK</button>
+ <button class="btn secondary" onclick="show('home')">
+  BACK
+ </button>
 </section>
 
 <script>
@@ -217,91 +360,287 @@ const products=[
 ];
 
 let coins=Number(localStorage.getItem("fbCoins")||0);
-let owned=JSON.parse(localStorage.getItem("fbOwned")||'["blue"]');
+let owned=JSON.parse(
+ localStorage.getItem("fbOwned")||'["blue"]'
+);
 let equipped=localStorage.getItem("fbEquipped")||"blue";
 let soundEnabled=localStorage.getItem("fbSound")!=="off";
-let currentMode=0,players=[],turn=0,selected=null,used=false;
-let locked=false,finished=false,round=1,gameToken=0;
-let audioContext,dragOrigin=null,dragPoint=null;
 
-function beep(freq=440,duration=.12){
- if(!soundEnabled)return;
+let currentMode=0;
+let players=[];
+let turn=0;
+let selected=null;
+let used=false;
+let locked=false;
+let finished=false;
+let round=1;
+let gameToken=0;
+let dragOrigin=null;
+let dragPoint=null;
+
+/* サウンドシステム */
+let audioContext=null;
+let bgmTimer=null;
+let bgmStep=0;
+
+function initAudio(){
  try{
-  audioContext ||= new (window.AudioContext||window.webkitAudioContext)();
-  let o=audioContext.createOscillator();
-  let g=audioContext.createGain();
-  o.type="sawtooth";
-  o.frequency.setValueAtTime(freq,audioContext.currentTime);
-  o.frequency.exponentialRampToValueAtTime(Math.max(60,freq/2),audioContext.currentTime+duration);
-  g.gain.setValueAtTime(.07,audioContext.currentTime);
-  g.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);
-  o.connect(g);g.connect(audioContext.destination);
-  o.start();o.stop(audioContext.currentTime+duration);
+  if(!audioContext){
+   audioContext=new (
+    window.AudioContext||window.webkitAudioContext
+   )();
+  }
+  if(audioContext.state==="suspended"){
+   audioContext.resume();
+  }
  }catch(e){}
 }
-function buzz(){if(navigator.vibrate)navigator.vibrate(35)}
+
+function tone(freq,duration=.15,type="sine",volume=.06,delay=0){
+ if(!soundEnabled)return;
+ initAudio();
+ if(!audioContext)return;
+
+ const now=audioContext.currentTime+delay;
+ const osc=audioContext.createOscillator();
+ const gain=audioContext.createGain();
+
+ osc.type=type;
+ osc.frequency.setValueAtTime(Math.max(30,freq),now);
+ gain.gain.setValueAtTime(.0001,now);
+ gain.gain.exponentialRampToValueAtTime(
+  Math.max(.0002,volume),now+.012
+ );
+ gain.gain.exponentialRampToValueAtTime(
+  .0001,now+duration
+ );
+
+ osc.connect(gain);
+ gain.connect(audioContext.destination);
+ osc.start(now);
+ osc.stop(now+duration+.02);
+}
+
+function hitSound(){
+ if(!soundEnabled)return;
+ initAudio();
+ if(!audioContext)return;
+
+ const ctx=audioContext;
+ const duration=.16;
+ const size=Math.floor(ctx.sampleRate*duration);
+ const buffer=ctx.createBuffer(1,size,ctx.sampleRate);
+ const data=buffer.getChannelData(0);
+
+ for(let i=0;i<size;i++){
+  const t=i/ctx.sampleRate;
+  data[i]=(Math.random()*2-1)*
+   Math.exp(-t*28);
+ }
+
+ const noise=ctx.createBufferSource();
+ noise.buffer=buffer;
+ const filter=ctx.createBiquadFilter();
+ filter.type="lowpass";
+ filter.frequency.value=1400;
+
+ const gain=ctx.createGain();
+ gain.gain.value=.27;
+
+ noise.connect(filter);
+ filter.connect(gain);
+ gain.connect(ctx.destination);
+ noise.start();
+
+ tone(150,.13,"triangle",.13);
+ tone(75,.18,"sine",.10,.015);
+}
+
+function bgmTick(){
+ if(!soundEnabled||!audioContext)return;
+
+ const battle=$("battle").classList.contains("active");
+
+ if(battle){
+  const bass=[110,110,146.83,110,98,98,130.81,98];
+  const melody=[
+   440,0,523.25,0,587.33,523.25,440,0,
+   392,0,440,0,523.25,440,392,0
+  ];
+
+  if(bgmStep%2===0){
+   tone(bass[Math.floor(bgmStep/2)%8],
+    .22,"sawtooth",.016);
+  }
+  const note=melody[bgmStep%melody.length];
+  if(note)tone(note,.15,"triangle",.022);
+
+ }else{
+  const notes=[
+   220,329.63,440,329.63,
+   196,293.66,392,293.66
+  ];
+  if(bgmStep%2===0){
+   tone(notes[Math.floor(bgmStep/2)%8],
+    .5,"sine",.018);
+  }
+ }
+ bgmStep++;
+}
+
+function startBGM(){
+ if(!soundEnabled)return;
+ initAudio();
+ if(bgmTimer)return;
+ bgmTick();
+ bgmTimer=setInterval(bgmTick,280);
+}
+
+function stopBGM(){
+ if(bgmTimer){
+  clearInterval(bgmTimer);
+  bgmTimer=null;
+ }
+}
+
 function toggleSound(){
  soundEnabled=!soundEnabled;
- localStorage.setItem("fbSound",soundEnabled?"on":"off");
+ localStorage.setItem(
+  "fbSound",soundEnabled?"on":"off"
+ );
+ if(soundEnabled)startBGM();
+ else stopBGM();
  renderHeader();
 }
+
+function vibrate(pattern=60){
+ if(navigator.vibrate){
+  try{navigator.vibrate(pattern)}catch(e){}
+ }
+}
+
+document.addEventListener("pointerdown",()=>{
+ if(soundEnabled)startBGM();
+},{once:true});
+
+/* 画面 */
 function renderHeader(){
  $("homeCoins").textContent="COINS "+coins;
- $("soundBtn").textContent=soundEnabled?"SOUND ON":"SOUND OFF";
+ $("soundBtn").textContent=
+  soundEnabled?"SOUND ON":"SOUND OFF";
 }
+
 function show(id){
- document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+ document.querySelectorAll(".screen").forEach(x=>
+  x.classList.remove("active")
+ );
  $(id).classList.add("active");
  renderHeader();
  if(id==="shop")renderShop();
  window.scrollTo(0,0);
+ bgmStep=0;
 }
 
 $("modeList").innerHTML=modes.map((m,i)=>`
  <button class="option" onclick="startGame(${i})">
- <strong>${m.name}</strong><span>${m.desc}</span>
- </button>`).join("");
+  <strong>${m.name}</strong>
+  <span>${m.desc}</span>
+ </button>
+`).join("");
 
 function startGame(i){
  gameToken++;
  currentMode=i;
  const m=modes[i];
- players=[{name:"YOU",hands:[1,m.solo?0:1]}];
+ players=[{
+  name:"YOU",
+  hands:[1,m.solo?0:1]
+ }];
  for(let j=0;j<m.enemies;j++){
   players.push({
    name:m.enemies===1?"ENEMY":"ENEMY "+(j+1),
    hands:[m.start,m.start]
   });
  }
- turn=0;selected=null;used=false;locked=false;finished=false;round=1;
- show("battle");status("YOUR TURN");render();
+ turn=0;
+ selected=null;
+ used=false;
+ locked=false;
+ finished=false;
+ round=1;
+ show("battle");
+ status("YOUR TURN");
+ render();
 }
 
-function alive(p){return p.hands.some(n=>n>0)}
-function normalize(n){return n>=5?n%5:n}
-function status(t){$("status").textContent=t}
+function alive(p){
+ return p.hands.some(n=>n>0);
+}
 
-/* 指の本数に合わせた手のSVG */
+function normalize(n){
+ return n>=5?n%5:n;
+}
+
+function status(t){
+ $("status").textContent=t;
+}
+
+/* 手のイラスト */
 function handSVG(n,color,side){
  if(n===0){
-  return `<svg class="handGraphic" viewBox="0 0 120 115" aria-label="指0本">
-   <circle cx="60" cy="55" r="35" fill="none" stroke="#74849e" stroke-width="3" stroke-dasharray="6 7"/>
-   <path d="M45 40L75 70M75 40L45 70" stroke="#9daac0" stroke-width="6" stroke-linecap="round"/>
+  return `<svg class="handGraphic"
+   viewBox="0 0 120 115">
+   <circle cx="60" cy="55" r="35"
+    fill="none" stroke="#74849e"
+    stroke-width="3" stroke-dasharray="6 7"/>
+   <path d="M45 40L75 70M75 40L45 70"
+    stroke="#9daac0" stroke-width="6"
+    stroke-linecap="round"/>
   </svg>`;
  }
+
  const x=[29,45,61,77];
  const height=[58,75,70,52];
  let fingers="";
+
  for(let i=0;i<n;i++){
-  fingers+=`<rect x="${x[i]}" y="${75-height[i]}" width="15" height="${height[i]+17}" rx="7.5" fill="${color}" stroke="#d9f6ff" stroke-opacity=".6" stroke-width="1.5"/>`;
+  fingers+=`
+   <rect x="${x[i]}"
+    y="${75-height[i]}"
+    width="15"
+    height="${height[i]+17}"
+    rx="7.5"
+    fill="${color}"
+    stroke="#d9f6ff"
+    stroke-opacity=".6"
+    stroke-width="1.5"/>
+  `;
  }
- return `<svg class="handGraphic" viewBox="0 0 120 115" role="img" aria-label="指${n}本">
-  <g transform="${side===1?'translate(120 0) scale(-1 1)':''}">
-   <path d="M29 65 Q18 49 11 59 Q6 67 19 82 L31 99 Q40 109 55 109 L76 109 Q91 108 94 94 L94 70 Q92 58 81 62 L74 72 L35 72Z"
-    fill="${color}" stroke="#d9f6ff" stroke-opacity=".65" stroke-width="2"/>
+
+ return `<svg class="handGraphic"
+  viewBox="0 0 120 115"
+  role="img" aria-label="指${n}本">
+  <g transform="${
+   side===1?'translate(120 0) scale(-1 1)':''
+  }">
+   <path d="
+    M29 65 Q18 49 11 59
+    Q6 67 19 82 L31 99
+    Q40 109 55 109 L76 109
+    Q91 108 94 94 L94 70
+    Q92 58 81 62 L74 72 L35 72Z"
+    fill="${color}"
+    stroke="#d9f6ff"
+    stroke-opacity=".65"
+    stroke-width="2"/>
    ${fingers}
-   <path d="M27 76 Q37 68 46 80 L60 96" fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width="3"/>
-   <rect x="39" y="99" width="43" height="14" rx="5" fill="${color}" stroke="#ffffff" stroke-opacity=".4"/>
+   <path d="M27 76 Q37 68 46 80 L60 96"
+    fill="none" stroke="#ffffff"
+    stroke-opacity=".28" stroke-width="3"/>
+   <rect x="39" y="99"
+    width="43" height="14" rx="5"
+    fill="${color}" stroke="#ffffff"
+    stroke-opacity=".4"/>
   </g>
  </svg>`;
 }
@@ -309,136 +648,264 @@ function handSVG(n,color,side){
 function handHTML(p,h){
  const n=players[p].hands[h];
  const enemy=p!==0;
- const color=enemy?"#ff6981":products.find(x=>x.id===equipped)?.color||"#48cfff";
- return `<button class="hand ${n===0?"dead":""} ${!enemy&&selected===h?"selected":""}"
- data-p="${p}" data-h="${h}" style="--glow:${color}"
- onclick="tapHand(${p},${h})">
- <span class="handname">${h===0?"LEFT":"RIGHT"}</span>
- ${handSVG(n,color,h)}
- <span class="handNumber">${n}</span>
+ const color=enemy?
+  "#ff6981":
+  products.find(x=>x.id===equipped)?.color||"#48cfff";
+
+ return `
+ <button
+  class="hand ${n===0?"dead":""}
+  ${!enemy&&selected===h?"selected":""}"
+  data-p="${p}"
+  data-h="${h}"
+  style="--glow:${color}"
+  onclick="tapHand(${p},${h})">
+  <span class="handname">
+   ${h===0?"LEFT":"RIGHT"}
+  </span>
+  ${handSVG(n,color,h)}
+  <span class="handNumber">${n}</span>
  </button>`;
 }
 
+/* 分裂 */
 function splitChoices(p){
  const hands=players[p].hands;
  const zero=hands.indexOf(0);
  if(zero<0)return [];
- const other=1-zero,n=hands[other];
+
+ const other=1-zero;
+ const n=hands[other];
  if(n<2)return [];
+
  let choices=[];
  for(let a=1;a<=Math.floor(n/2);a++){
-  let b=n-a;
-  choices.push(zero===0?[a,b]:[b,a]);
+  const b=n-a;
+  choices.push(
+   zero===0?[a,b]:[b,a]
+  );
  }
  return choices;
 }
 
 function renderSplit(){
  const el=$("splitOptions");
+
  if(turn!==0||locked||finished){
   el.innerHTML='<span class="actionHelp">相手のターン</span>';
   return;
  }
+
  const choices=splitChoices(0);
  if(!choices.length){
-  el.innerHTML='<span class="actionHelp">片手0本・もう片方2本以上で使用可能</span>';
+  el.innerHTML=`
+   <span class="actionHelp">
+    片手0本・もう片方2本以上で使用可能
+   </span>`;
   return;
  }
+
  el.innerHTML=choices.map(c=>`
-  <button onclick="splitHand(0,${c[0]},${c[1]})">${c[0]}・${c[1]}</button>
+  <button onclick="splitHand(0,${c[0]},${c[1]})">
+   ${c[0]}・${c[1]}
+  </button>
  `).join("");
 }
 
+/* バトル描画 */
 function render(){
  $("turnInfo").textContent="TURN "+round;
  $("battleCoins").textContent="COINS "+coins;
+
  $("enemies").innerHTML=players.slice(1).map((p,j)=>`
- <div class="enemyUnit">
-  <p class="teamLabel">${p.name}${alive(p)?"":" - KO"}</p>
-  <div class="handRow enemy">
-   ${handHTML(j+1,0)}${handHTML(j+1,1)}
+  <div class="enemyUnit">
+   <p class="teamLabel">
+    ${p.name}${alive(p)?"":" - KO"}
+   </p>
+   <div class="handRow enemy">
+    ${handHTML(j+1,0)}
+    ${handHTML(j+1,1)}
+   </div>
   </div>
- </div>`).join("");
- $("playerHands").innerHTML=handHTML(0,0)+handHTML(0,1);
+ `).join("");
+
+ $("playerHands").innerHTML=
+  handHTML(0,0)+handHTML(0,1);
+
  document.querySelectorAll(".skills button").forEach(b=>{
   b.disabled=used||locked||finished||turn!==0;
  });
+
  renderSplit();
+
  document.querySelectorAll(".hand").forEach(el=>{
   el.addEventListener("pointerdown",dragStart);
   el.addEventListener("pointerup",dragEnd);
  });
 }
 
+/* 自分の手への攻撃にも対応 */
 function tapHand(p,h){
- if(locked||finished||turn!==0||players[p].hands[h]===0)return;
+ if(locked||finished||turn!==0)return;
+ if(players[p].hands[h]===0)return;
+
  if(p===0){
-  selected=selected===h?null:h;
-  status(selected===null?"自分の手を選択":"攻撃する敵の手を選んで！");
-  render();
+  if(selected===null){
+   selected=h;
+   status("攻撃先を選んで！");
+   render();
+   return;
+  }
+
+  if(selected===h){
+   selected=null;
+   status("選択を解除しました");
+   render();
+   return;
+  }
+
+  const from=selected;
+  selected=null;
+  attack(0,from,0,h);
   return;
  }
- if(selected===null){status("先に自分の手を選んで！");return}
- attack(0,selected,p,h);
+
+ if(selected===null){
+  status("先に自分の手を選んで！");
+  return;
+ }
+
+ const from=selected;
+ selected=null;
+ attack(0,from,p,h);
 }
 
+/* スワイプ */
 function dragStart(e){
- let p=Number(e.currentTarget.dataset.p);
- let h=Number(e.currentTarget.dataset.h);
- if(p===0&&turn===0&&!locked&&players[0].hands[h]>0){
-  dragOrigin=h;dragPoint={x:e.clientX,y:e.clientY};
+ const p=Number(e.currentTarget.dataset.p);
+ const h=Number(e.currentTarget.dataset.h);
+
+ if(
+  p===0&&turn===0&&!locked&&
+  players[0].hands[h]>0
+ ){
+  dragOrigin=h;
+  dragPoint={x:e.clientX,y:e.clientY};
  }
 }
+
 function dragEnd(e){
  if(dragOrigin===null)return;
- let from=dragOrigin;
- let distance=dragPoint?Math.hypot(e.clientX-dragPoint.x,e.clientY-dragPoint.y):0;
- dragOrigin=null;dragPoint=null;
+
+ const from=dragOrigin;
+ const distance=dragPoint?
+  Math.hypot(
+   e.clientX-dragPoint.x,
+   e.clientY-dragPoint.y
+  ):0;
+
+ dragOrigin=null;
+ dragPoint=null;
+
  if(distance<20)return;
- let el=document.elementFromPoint(e.clientX,e.clientY)?.closest(".hand");
+
+ const el=document.elementFromPoint(
+  e.clientX,e.clientY
+ )?.closest(".hand");
+
  if(!el)return;
- let p=Number(el.dataset.p),h=Number(el.dataset.h);
- if(p>0&&players[p].hands[h]>0&&!locked){
-  selected=null;attack(0,from,p,h);
- }
+
+ const p=Number(el.dataset.p);
+ const h=Number(el.dataset.h);
+
+ if(p===0&&h===from)return;
+ if(players[p].hands[h]===0)return;
+ if(locked)return;
+
+ selected=null;
+ attack(0,from,p,h);
 }
 
+/* 攻撃アニメーション */
 function animateAttack(from,fh,to,th,callback){
- const a=document.querySelector(`.hand[data-p="${from}"][data-h="${fh}"]`);
- const b=document.querySelector(`.hand[data-p="${to}"][data-h="${th}"]`);
- if(!a||!b){callback();return}
- const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();
- const ax=ar.left+ar.width/2,ay=ar.top+ar.height/2;
- const bx=br.left+br.width/2,by=br.top+br.height/2;
- a.style.setProperty("--dx",(bx-ax)*.72+"px");
- a.style.setProperty("--dy",(by-ay)*.72+"px");
+ const a=document.querySelector(
+  `.hand[data-p="${from}"][data-h="${fh}"]`
+ );
+ const b=document.querySelector(
+  `.hand[data-p="${to}"][data-h="${th}"]`
+ );
+
+ if(!a||!b){
+  callback();
+  return;
+ }
+
+ const ar=a.getBoundingClientRect();
+ const br=b.getBoundingClientRect();
+
+ const ax=ar.left+ar.width/2;
+ const ay=ar.top+ar.height/2;
+ const bx=br.left+br.width/2;
+ const by=br.top+br.height/2;
+
+ a.style.setProperty(
+  "--dx",(bx-ax)*.72+"px"
+ );
+ a.style.setProperty(
+  "--dy",(by-ay)*.72+"px"
+ );
+
  a.classList.add("attacking");
+
  setTimeout(()=>{
   b.classList.add("defending");
+
   const impact=document.createElement("div");
   impact.className="impact";
-  impact.style.left=bx+"px";impact.style.top=by+"px";
+  impact.style.left=bx+"px";
+  impact.style.top=by+"px";
   document.body.appendChild(impact);
-  beep(650,.18);buzz();
+
+  hitSound();
+  vibrate([65,30,45]);
+
   setTimeout(()=>impact.remove(),450);
  },190);
+
  setTimeout(callback,560);
 }
 
+/* 攻撃処理 */
 function attack(from,fh,to,th){
- if(locked||finished||from===to||!players[from].hands[fh]||!players[to].hands[th])return;
+ if(locked||finished)return;
+ if(from===to&&fh===th)return;
+ if(!players[from].hands[fh])return;
+ if(!players[to].hands[th])return;
+
  locked=true;
+
  const power=players[from].hands[fh];
  const before=players[to].hands[th];
  const token=gameToken;
+
  status(players[from].name+" ATTACK!");
+
  animateAttack(from,fh,to,th,()=>{
   if(token!==gameToken||finished)return;
+
   players[to].hands[th]=normalize(before+power);
   const after=players[to].hands[th];
+
   selected=null;
-  status(players[from].name+" → "+players[to].name+"  "+before+" → "+(after||"KO"));
+
+  status(
+   players[from].name+" → "+
+   (from===to?"OWN HAND":players[to].name)+
+   "  "+before+" → "+(after||"KO")
+  );
+
   render();
+
   setTimeout(()=>{
    if(token!==gameToken||finished)return;
    if(checkEnd())return;
@@ -447,34 +914,58 @@ function attack(from,fh,to,th){
  });
 }
 
+/* ターン進行 */
 function nextTurn(actor){
  if(finished)return;
+
  turn=(actor+1)%players.length;
- while(!alive(players[turn]))turn=(turn+1)%players.length;
+
+ while(!alive(players[turn])){
+  turn=(turn+1)%players.length;
+ }
+
  if(turn===0){
-  round++;locked=false;selected=null;
-  status("YOUR TURN");render();
+  round++;
+  locked=false;
+  selected=null;
+  status("YOUR TURN");
+  render();
  }else{
   locked=true;
   status(players[turn].name+" THINKING...");
   render();
+
   const token=gameToken;
+
   setTimeout(()=>{
-   if(token===gameToken&&!finished)cpuMove();
+   if(token===gameToken&&!finished){
+    cpuMove();
+   }
   },550);
  }
 }
 
 function splitHand(p,left,right){
- if(finished||p!==turn||p===0&&locked)return;
- const valid=splitChoices(p).some(c=>c[0]===left&&c[1]===right);
+ if(finished||p!==turn)return;
+ if(p===0&&locked)return;
+
+ const valid=splitChoices(p).some(c=>
+  c[0]===left&&c[1]===right
+ );
  if(!valid)return;
+
  locked=true;
  players[p].hands=[left,right];
  selected=null;
- beep(850,.2);buzz();
- status(players[p].name+" SPLIT! "+left+"・"+right);
+
+ tone(850,.2,"triangle",.09);
+ vibrate(35);
+
+ status(
+  players[p].name+" SPLIT! "+left+"・"+right
+ );
  render();
+
  const token=gameToken;
  setTimeout(()=>{
   if(token!==gameToken||finished)return;
@@ -482,110 +973,259 @@ function splitHand(p,left,right){
  },600);
 }
 
+/* CPU */
 function cpuMove(){
  if(finished||turn===0)return;
- const p=turn,choices=splitChoices(p);
+
+ const p=turn;
+ const choices=splitChoices(p);
+
  if(choices.length){
   const n=Math.max(...players[p].hands);
   if(Math.random()<(n>=4?.65:.38)){
    const c=choices[choices.length-1];
-   locked=false;splitHand(p,c[0],c[1]);
+   locked=false;
+   splitHand(p,c[0],c[1]);
    return;
   }
  }
- const own=players[p].hands.map((n,h)=>({n,h})).filter(x=>x.n);
+
+ const own=players[p].hands
+  .map((n,h)=>({n,h}))
+  .filter(x=>x.n);
+
  const targets=[];
+
  players.forEach((v,i)=>{
   if(i!==p&&alive(v)){
-   v.hands.forEach((n,h)=>{if(n)targets.push({p:i,h,n})});
+   v.hands.forEach((n,h)=>{
+    if(n)targets.push({p:i,h,n});
+   });
   }
  });
- if(!own.length||!targets.length){checkEnd();return}
- let best=null,bestScore=-Infinity;
- for(const a of own)for(const t of targets){
-  const result=normalize(t.n+a.n);
-  const score=(result===0?20:result>t.n?5:1)+Math.random()*5+(t.p===0?2:0);
-  if(score>bestScore){bestScore=score;best={a,t}}
+
+ // CPUも自分の反対側の手を攻撃できる
+ if(own.length===2){
+  targets.push({
+   p:p,h:0,n:players[p].hands[0]
+  });
+  targets.push({
+   p:p,h:1,n:players[p].hands[1]
+  });
  }
+
+ if(!own.length||!targets.length){
+  checkEnd();
+  return;
+ }
+
+ let best=null;
+ let bestScore=-Infinity;
+
+ for(const a of own){
+  for(const t of targets){
+   if(t.p===p&&a.h===t.h)continue;
+
+   const result=normalize(t.n+a.n);
+   let score=Math.random()*5;
+
+   if(t.p!==p){
+    score+=result===0?20:result>t.n?5:1;
+    if(t.p===0)score+=2;
+   }else{
+    score+=result>t.n?4:0;
+    if(result===0)score-=20;
+    if(t.n+a.n===4)score+=5;
+   }
+
+   if(score>bestScore){
+    bestScore=score;
+    best={a,t};
+   }
+  }
+ }
+
+ if(!best){
+  locked=false;
+  nextTurn(p);
+  return;
+ }
+
  locked=false;
  attack(p,best.a.h,best.t.p,best.t.h);
 }
 
+/* 勝敗 */
 function checkEnd(){
- if(!alive(players[0])){endGame(false);return true}
- if(players.slice(1).every(p=>!alive(p))){endGame(true);return true}
+ if(!alive(players[0])){
+  endGame(false);
+  return true;
+ }
+
+ if(players.slice(1).every(p=>!alive(p))){
+  endGame(true);
+  return true;
+ }
+
  return false;
 }
+
 function endGame(win){
- finished=true;locked=true;
- const reward=win?modes[currentMode].enemies*50+25:0;
+ finished=true;
+ locked=true;
+
+ const reward=win?
+  modes[currentMode].enemies*50+25:0;
+
  coins+=reward;
  localStorage.setItem("fbCoins",coins);
- $("resultTitle").textContent=win?"VICTORY":"DEFEAT";
- $("resultTitle").style.color=win?"#65e6ff":"#ff6486";
- $("resultMessage").textContent=win?"敵を撃破！":"次こそ勝利を！";
- $("reward").textContent="獲得コイン +"+reward;
- beep(win?880:170,.45);
+
+ $("resultTitle").textContent=
+  win?"VICTORY":"DEFEAT";
+ $("resultTitle").style.color=
+  win?"#65e6ff":"#ff6486";
+ $("resultMessage").textContent=
+  win?"敵を撃破！":"次こそ勝利を！";
+ $("reward").textContent=
+  "獲得コイン +"+reward;
+
+ if(win){
+  tone(523,.2,"triangle",.08);
+  tone(659,.2,"triangle",.08,.16);
+  tone(784,.4,"triangle",.09,.32);
+ }else{
+  tone(250,.35,"sawtooth",.05);
+  tone(140,.5,"triangle",.06,.2);
+ }
+
  const token=gameToken;
- setTimeout(()=>{if(token===gameToken)show("result")},400);
+
+ setTimeout(()=>{
+  if(token===gameToken)show("result");
+ },400);
 }
 
+/* 必殺技 */
 function skill(type){
  if(used||locked||finished||turn!==0)return;
+
  const hands=players[0].hands;
- const active=hands.map((n,h)=>({n,h})).filter(x=>x.n);
+ const active=hands
+  .map((n,h)=>({n,h}))
+  .filter(x=>x.n);
+
  if(!active.length)return;
- const h=selected!==null&&hands[selected]?selected:active[0].h;
+
+ const h=selected!==null&&hands[selected]?
+  selected:active[0].h;
+
  if(type==="clone"){
   const empty=hands.indexOf(0);
-  if(empty<0){status("復活には0本の手が必要！");return}
+  if(empty<0){
+   status("復活には0本の手が必要！");
+   return;
+  }
   hands[empty]=hands[1-empty];
  }
- if(type==="plus")hands[h]=normalize(hands[h]+1);
+
+ if(type==="plus"){
+  // 最後の手が消滅する操作は防止
+  const next=normalize(hands[h]+1);
+  if(next===0&&!hands.some((n,i)=>i!==h&&n>0)){
+   status("最後の手は消せません");
+   return;
+  }
+  hands[h]=next;
+ }
+
  if(type==="minus"){
-  if(hands[h]<=1){status("2本以上の手を選んで！");return}
+  if(hands[h]<=1){
+   status("2本以上の手を選んで！");
+   return;
+  }
   hands[h]--;
  }
+
  if(type==="area"){
   players.slice(1).forEach(p=>{
-   p.hands.forEach((n,k)=>{if(n)p.hands[k]=normalize(n+1)});
+   p.hands.forEach((n,k)=>{
+    if(n)p.hands[k]=normalize(n+1);
+   });
   });
  }
- used=true;selected=null;
- beep(1000,.3);buzz();
+
+ used=true;
+ selected=null;
+
+ tone(900,.25,"sawtooth",.07);
+ tone(1200,.35,"triangle",.06,.1);
+ vibrate([40,40,60]);
+
  status("必殺技発動！ 続けて攻撃できる！");
  render();
  checkEnd();
 }
 
+/* ショップ */
 function renderShop(){
  $("shopCoins").textContent="所持コイン "+coins;
+
  $("shopList").innerHTML=products.map(x=>{
   const has=owned.includes(x.id);
-  return `<div class="panel shopItem">
-   <div><strong style="color:${x.color}">${x.name}</strong>
-   <div class="sub">${has?"購入済み":x.price+" COINS"}</div></div>
-   <button onclick="buy('${x.id}')">${equipped===x.id?"装備中":has?"装備":"購入"}</button>
-  </div>`;
+
+  return `
+   <div class="panel shopItem">
+    <div>
+     <strong style="color:${x.color}">
+      ${x.name}
+     </strong>
+     <div class="sub">
+      ${has?"購入済み":x.price+" COINS"}
+     </div>
+    </div>
+    <button onclick="buy('${x.id}')">
+     ${equipped===x.id?"装備中":has?"装備":"購入"}
+    </button>
+   </div>
+  `;
  }).join("");
 }
+
 function buy(id){
  const x=products.find(p=>p.id===id);
+ if(!x)return;
+
  if(!owned.includes(id)){
-  if(coins<x.price){alert("コインが足りません");return}
-  coins-=x.price;owned.push(id);
+  if(coins<x.price){
+   alert("コインが足りません");
+   return;
+  }
+
+  coins-=x.price;
+  owned.push(id);
+
   localStorage.setItem("fbCoins",coins);
-  localStorage.setItem("fbOwned",JSON.stringify(owned));
+  localStorage.setItem(
+   "fbOwned",JSON.stringify(owned)
+  );
  }
+
  equipped=id;
  localStorage.setItem("fbEquipped",id);
- renderShop();renderHeader();beep(700,.15);
+
+ renderShop();
+ renderHeader();
+ tone(700,.15,"triangle",.07);
 }
+
 function confirmQuit(){
  if(confirm("バトルを終了しますか？")){
-  gameToken++;finished=true;show("home");
+  gameToken++;
+  finished=true;
+  show("home");
  }
 }
+
 renderHeader();
 </script>
 </body>
