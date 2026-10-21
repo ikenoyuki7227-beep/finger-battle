@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080d1b">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>FINGER BATTLE</title>
 <style>
 *{box-sizing:border-box}
@@ -31,14 +32,13 @@ h2{font-size:23px;letter-spacing:2px}
 .shopItem{display:flex;justify-content:space-between;align-items:center;text-align:left;gap:10px}
 .shopItem button{padding:10px;background:#72511c;color:white;border:1px solid gold;border-radius:9px}
 
-/* ホーム画面全体に炎を表示 */
+/* ホーム画面：hero.PNGを全画面表示 */
 #home{
  position:relative;
  isolation:isolate;
  min-height:100dvh;
  display:none;
  flex-direction:column;
- justify-content:flex-start;
  padding:calc(env(safe-area-inset-top) + 16px) 15px calc(env(safe-area-inset-bottom) + 20px);
  background:transparent;
  overflow:hidden;
@@ -52,14 +52,14 @@ h2{font-size:23px;letter-spacing:2px}
  background:
   linear-gradient(
    to bottom,
-   rgba(4,9,24,.90) 0%,
-   rgba(4,9,24,.66) 23%,
-   rgba(4,9,24,.15) 42%,
-   rgba(4,9,24,.08) 62%,
-   rgba(4,9,24,.78) 83%,
-   rgba(4,9,24,.96) 100%
+   rgba(4,9,24,.82) 0%,
+   rgba(4,9,24,.55) 23%,
+   rgba(4,9,24,.12) 42%,
+   rgba(4,9,24,.05) 62%,
+   rgba(4,9,24,.70) 83%,
+   rgba(4,9,24,.94) 100%
   ),
-  url("hero.webp") center 43% / cover no-repeat;
+  url("hero.PNG") center center / cover no-repeat;
 }
 #home::after{
  content:"";
@@ -79,13 +79,9 @@ h2{font-size:23px;letter-spacing:2px}
 
 /* バトル画面 */
 #battle{
- height:100dvh;
- min-height:580px;
+ height:100dvh;min-height:580px;
  padding:env(safe-area-inset-top,8px) 12px max(8px,env(safe-area-inset-bottom));
- overflow:hidden;
- display:none;
- flex-direction:column;
- gap:5px;
+ overflow:hidden;display:none;flex-direction:column;gap:5px
 }
 #battle.active{display:flex}
 .battleTop{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;min-height:25px}
@@ -94,21 +90,12 @@ h2{font-size:23px;letter-spacing:2px}
 .teamLabel{font-size:11px;letter-spacing:2px;color:#a7b9d8;margin:0}
 .handRow{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;max-width:500px;margin:0 auto;min-height:0;flex:1 1 0}
 .hand{
- position:relative;
- border:2px solid #315d8a;
- border-radius:15px;
+ position:relative;border:2px solid #315d8a;border-radius:15px;
  background:linear-gradient(160deg,#192a4b,#0d1628);
- color:white;
- display:flex;
- flex-direction:column;
- align-items:center;
- justify-content:center;
- min-width:0;
- min-height:0;
- overflow:visible;
- touch-action:none;
- user-select:none;
- -webkit-user-select:none;
+ color:white;display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ min-width:0;min-height:0;overflow:visible;
+ touch-action:none;user-select:none;-webkit-user-select:none
 }
 .enemy .hand{border-color:#9e3e54;background:linear-gradient(160deg,#40202e,#160f20)}
 .hand.selected{border-color:#52f1ff;box-shadow:0 0 18px #00cfff99}
