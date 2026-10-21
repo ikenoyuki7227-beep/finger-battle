@@ -164,6 +164,14 @@ html,body{background:#030817}
 #shop .shopCard strong{font-size:clamp(10px,2.7vw,13px);min-height:32px;display:flex;align-items:center;justify-content:center}
 #shop .shopCard small{font-size:clamp(9px,2.5vw,12px);min-height:28px;display:flex;align-items:center;justify-content:center}
 #shop .shopCard button{width:96%;padding:10px 0;font-size:clamp(10px,2.7vw,13px)}
+</style><style id="v33IntegratedHand">
+/* One visual scene per hand; accessories and magic have transparent backgrounds. */
+.composedScene{background:radial-gradient(ellipse at 50% 58%,#21334a 0%,#071020 76%)}
+.composedScene .battleSkin{z-index:1;object-fit:cover;object-position:center;}
+.composedScene .integratedOrnament{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;filter:drop-shadow(0 2px 3px #000)}
+.composedScene .integratedAura{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;mix-blend-mode:screen;animation:cosmeticPulse 2.3s ease-in-out infinite alternate}
+@keyframes cosmeticPulse{from{opacity:.55;filter:brightness(.9)}to{opacity:1;filter:brightness(1.5)}}
+.composedScene .battleEffect,.composedScene .battleAccessory{display:none!important}
 </style></head><body>
 <div id="fx" aria-hidden="true"></div>
 <div id="skillModal" role="dialog" aria-modal="true" aria-labelledby="skillModalTitle"><div class="skillDialog"><h2 id="skillModalTitle">覚醒 ＋1</h2><p id="skillModalHint">どちらの手に使う？</p><div class="skillChoices"><button id="skillLeft" onclick="chooseSkillHand(0)">✋ 左手<span id="skillLeftCount"></span></button><button id="skillRight" onclick="chooseSkillHand(1)">✋ 右手<span id="skillRightCount"></span></button></div><button class="skillCancel" onclick="closeSkillModal()">キャンセル</button></div></div>
@@ -288,14 +296,32 @@ function isLocal(){return !!modes[currentMode].local}
 function canAct(p){return !finished&&!locked&&turn===p&&(p===0||isLocal())}
 function currentUsed(p){return !!players[p].used}
 function alive(p){return p.hands.some(n=>n>0)}function norm(n){return n>=5?n%5:n}function status(t){$('status').textContent=t}
+// v33: All battle cosmetics are rendered in a single shared hand scene.
+// No rectangular accessory/effect thumbnails are used.
+function ornamentSVG(id){
+ if(!id||id==='none')return '';
+ const band=['bracelet','gem','leather','watch','bandana','chain','armor','knuckle','spike'].includes(id);
+ const palette={pink:'#ff8fd5',flamering:'#ff7629',emerald:'#24e8a0',sakuraRing:'#ffb6d9',curse:'#d64078',skullring:'#dddde7',dragon:'#e7b44e',rough:'#aab4c8',leather:'#a36a42',bandana:'#dd405b',armor:'#79b9ed',gem:'#b968ff'};
+ const metal=palette[id]||'#ffd777';
+ const y=band?188:122,rx=band?73:40,ry=band?21:13;
+ const emblem={catpaw:'🐾',sakuraRing:'🌸',skullring:'☠',dice:'⚄',burger:'🍔',sunglasses:'◆',crown:'♛',watch:'◉',dragon:'✦',snake:'〰',spike:'✦',knuckle:'✦',pink:'♥',gem:'◆',emerald:'◆',flamering:'✦',rough:'◆',curse:'✧',goldring:'◆'}[id]||'◆';
+ return `<svg class="integratedOrnament" viewBox="0 0 240 260" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="ringmetal" x1="0" x2=".7" y1="0" y2="1"><stop stop-color="#fff8d0"/><stop offset=".3" stop-color="${metal}"/><stop offset=".65" stop-color="#6a3c20"/><stop offset="1" stop-color="#fff2b3"/></linearGradient><filter id="ringglow"><feGaussianBlur stdDeviation="2"/></filter></defs><ellipse cx="120" cy="${y}" rx="${rx}" ry="${ry}" fill="none" stroke="#000" stroke-opacity=".6" stroke-width="18"/><path d="M ${120-rx} ${y} A ${rx} ${ry} 0 0 1 ${120+rx} ${y}" fill="none" stroke="url(#ringmetal)" stroke-width="${band?19:13}" stroke-linecap="round"/><path d="M ${120-rx+4} ${y-5} A ${rx-4} ${ry-5} 0 0 1 ${120+rx-4} ${y-5}" fill="none" stroke="#fff6ce" stroke-opacity=".85" stroke-width="2"/><ellipse cx="120" cy="${y-ry+1}" rx="${band?17:13}" ry="${band?14:12}" fill="${metal}" stroke="#ffe9a0" stroke-width="3"/><text x="120" y="${y-ry+7}" font-size="${band?20:17}" font-family="sans-serif" text-anchor="middle" fill="#fff">${emblem}</text></svg>`;
+}
+function ambientSVG(id){
+ if(!id||id==='impact')return '';
+ const color={wind:'#b8fff4',lightning:'#f8e95b',water:'#62dcff',flame:'#ff812c',freeze:'#a6eeff',meteor:'#ffae62',sakura:'#ff93d2',blackhole:'#a982ff'}[id]||'#70dfff';
+ const petals=id==='sakura';
+ let bits='';for(let i=0;i<16;i++){let a=i*2.399,r=55+(i%4)*19,x=120+Math.cos(a)*r,y=125+Math.sin(a)*r*.75;bits+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${petals?4:2.2}" fill="${color}" opacity="${.35+(i%4)*.15}"/>`}
+ return `<svg class="integratedAura aura-${id}" viewBox="0 0 240 260" preserveAspectRatio="none" aria-hidden="true"><defs><filter id="aurablur"><feGaussianBlur stdDeviation="5"/></filter></defs><ellipse cx="120" cy="130" rx="93" ry="107" fill="none" stroke="${color}" stroke-width="10" opacity=".25" filter="url(#aurablur)"/><path d="M34 172 Q0 110 71 66 T184 48 Q246 78 206 157 T78 216" fill="none" stroke="${color}" stroke-width="3" opacity=".7" stroke-dasharray="18 11"/>${bits}</svg>`;
+}
+function composedHand(skin,accessory,effect,enemy){
+ const src=skinArt[skin]||skinArt.human;
+ return `<div class="battleArt composedScene ${enemy?'enemyArt':'playerArt'}"><img class="battleSkin" src="${src}" alt="${enemy?'人間の手':item('skin',skin)?.[1]||'装備中の手'}">${enemy?'':ambientSVG(effect)+ornamentSVG(accessory)}</div>`;
+}
 function handHTML(p,h){
  let n=players[p].hands[h],enemy=p!==0;
- // Both hands use the same equipped skin. Enemy uses the uncustomized human skin.
  let skin=enemy?'human':equip.skin;
- let mainArt=skinArt[skin]||skinArt.human;
- let accessory=(!enemy&&equip.accessory!=='none')?accessoryArt[equip.accessory]:null;
- let effect=(!enemy&&equip.effect!=='impact')?effectArt[equip.effect]:null;
- let photo=`<div class="battleArt ${enemy?'enemyArt':'playerArt'}"><img class="battleSkin" src="${mainArt}" alt="${enemy?'人間の手':item('skin',skin)?.[1]||'装備中の手'}">${effect?`<img class="battleEffect" src="${effect}" alt="">`:''}${accessory?`<img class="battleAccessory" src="${accessory}" alt="">`:''}</div>`;
+ let photo=composedHand(skin,enemy?'none':equip.accessory,enemy?'impact':equip.effect,enemy);
  return `<button class="hand photoHand ${n===0?'dead':''} ${p===turn&&selected===h?'selected':''}" data-p="${p}" data-h="${h}" style="--glow:${enemy?'#ff657b':'#56dfff'}" onclick="tap(${p},${h})"><small>${['LEFT','RIGHT','THIRD'][h]||'HAND'}</small>${photo}<b>${n}</b></button>`;
 }
 function splitChoices(p){if(players[p].hands.length!==2)return [];let [a,b]=players[p].hands,sum=a+b,res=[];if(sum<2)return res;for(let l=0;l<=4;l++){let r=sum-l;if(r<0||r>4)continue;if(l===a&&r===b)continue;if(l===b&&r===a)continue;res.push([l,r])}return res}
