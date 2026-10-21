@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080d1b"><title>FINGER BATTLE - SHOP v30 — v32</title>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#080d1b"><link rel="manifest" href="./manifest.json?v=pwa1"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ゆびバトル"><link rel="apple-touch-icon" href="./icon-192.png?v=pwa1"><title>FINGER BATTLE - SHOP v30 — v32</title>
 <style>
 *{box-sizing:border-box}html,body{margin:0;background:#080d1b;color:#fff;font-family:system-ui,-apple-system,sans-serif}body{text-align:center}button{font:inherit;cursor:pointer;touch-action:manipulation;color:inherit}button:disabled{opacity:.35;cursor:default}.screen{display:none;min-height:100dvh;padding:18px 14px 30px}.screen.active{display:block}h1{font-size:clamp(42px,12vw,65px);line-height:.95;font-style:italic;letter-spacing:-2px;text-shadow:0 0 24px #0cf}h2{font-size:23px;letter-spacing:2px}.muted{color:#aabbd7;font-size:12px}.gold{color:#ffdb77}.top{display:flex;justify-content:space-between;align-items:center;gap:8px;max-width:520px;margin:0 auto}.btn{display:block;width:100%;max-width:480px;margin:10px auto;padding:15px 10px;border:1px solid #54a7f7;border-radius:13px;background:linear-gradient(130deg,#183c7a,#097ccf);font-weight:900}.btn.alt{background:#1b2740;border-color:#566a89}.btn.goldbtn{background:linear-gradient(130deg,#79521d,#bd852b);border-color:#ffe08a}.btn.tiny{width:auto;margin:0;padding:9px;font-size:12px}.panel{max-width:520px;margin:12px auto;padding:14px;border-radius:14px;background:#15223b;border:1px solid #344967}.option{display:block;text-align:left;width:100%;max-width:520px;margin:9px auto;padding:14px;background:#1b2a46;border:1px solid #536b94;border-radius:12px}.option strong{display:block}.option small{color:#b2c2d9}
 #home{display:none;position:relative;isolation:isolate;min-height:100dvh;flex-direction:column;padding:calc(env(safe-area-inset-top) + 15px) 14px calc(env(safe-area-inset-bottom) + 18px);overflow:hidden}#home.active{display:flex}#home:before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom,#05091cdd 0%,#05091c66 30%,#05091c15 52%,#05091cdd 87%,#05091cf2 100%),url('hero.PNG?v=20261021-18') center/cover no-repeat}#home h1{margin:clamp(40px,10vh,95px) 0 8px}#home .spacer{flex:1;min-height:110px}#home .buttons{width:100%;max-width:480px;margin:auto auto 0}#home .btn{box-shadow:0 5px 22px #000a}
@@ -373,4 +373,15 @@ function checkEnd(){if(!alive(players[0])){endGame(false);return true}if(players
 function endGame(win){finished=true;locked=true;let reward=isLocal()?0:win?modes[currentMode].enemies*50+25:0;coins+=reward;persist();$('resultTitle').textContent=isLocal()?(win?'PLAYER 1 WIN!':'PLAYER 2 WIN!'):win?'VICTORY!':'DEFEAT';$('resultTitle').style.color=win?'#ffe179':'#ff6b87';$('resultTitle').classList.remove('win');$('resultMessage').textContent=isLocal()?'対面バトル決着！':win?'敵を撃破！':'次こそ勝利を！';$('reward').textContent=isLocal()?'ローカル対戦はコイン報酬なし':'獲得コイン +'+reward;if(win)[523,659,784,1046].forEach((n,i)=>tone(n,.35,'triangle',.08,i*.16));else tone(130,.5,'sawtooth',.06);let t=token;setTimeout(()=>{if(t!==token)return;show('result');if(win){$('resultTitle').classList.add('win');for(let i=0;i<100;i++)fxEl('confetti',{'--x':Math.random()*100+'%','--c':['#ffd56e','#ff74ac','#77ddff','#a8ffb5'][i%4],'--t':(2+Math.random()*2)+'s','--delay':Math.random()*.5+'s'},4900)}},900)}
 function quit(){if(confirm('バトルを終了しますか？')){token++;finished=true;$('fx').innerHTML='';show('home')}}
 header();persist();
-</script></body></html>
+</script>
+<script>
+/* PWA support: preserve game logic; update on next navigation. */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js', {scope:'./', updateViaCache:'none'})
+      .then(reg => { reg.update().catch(() => {}); })
+      .catch(err => console.warn('PWA service worker registration:', err));
+  });
+}
+</script>
+</body></html>

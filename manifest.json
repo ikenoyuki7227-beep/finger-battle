@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "ゆびバトル - FINGER BATTLE",
+  "short_name": "ゆびバトル",
+  "description": "指の数で戦う戦略バトルゲーム。対戦してコインを集め、手やエフェクトをカスタマイズ！",
+  "lang": "ja",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#030817",
+  "theme_color": "#080d1b",
+  "icons": [
+    {
+      "src": "./icon-192.png?v=2",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png?v=2",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
