@@ -132,6 +132,17 @@ html,body{background:#030817}
 .equippedSkinVector{width:92px;min-width:92px;display:flex;align-items:center;justify-content:center}
 .equippedSkinVector svg{width:100%;height:auto}
 .shopCard img.skinPhoto{height:115px;object-position:center center}
+
+/* Battle skin preview: opponent points down, player's equipped skin points up. */
+.photoHand{isolation:isolate;justify-content:space-between;padding:7px 3px 5px}
+.photoHand small,.photoHand b{position:relative;z-index:2;text-shadow:0 1px 5px #000,0 0 10px #000}
+.photoHand b{font-size:clamp(20px,5vw,29px);font-weight:1000}
+.battleArt{position:relative;flex:1;min-height:0;width:100%;overflow:hidden;border-radius:8px}
+.battleSkin{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;filter:saturate(1.12) contrast(1.07)}
+.enemyArt .battleSkin{transform:rotate(180deg)}
+.battleEffect{position:absolute;right:0;top:0;width:38%;height:38%;object-fit:cover;border:1px solid #84caff99;border-radius:8px;box-shadow:0 0 12px #00bfff66}
+.battleAccessory{position:absolute;left:0;bottom:0;width:36%;height:37%;object-fit:cover;border:1px solid #ffd987aa;border-radius:8px;box-shadow:0 0 12px #ffcc7766}
+.photoHand.dead .battleArt{opacity:.28}
 </style><style>
 .shopCard .effectPhoto{width:100%;height:clamp(112px,27vw,190px);object-fit:cover;object-position:center;display:block;border-radius:9px;border:1px solid #205382;margin-bottom:10px;background:#071328}
 #shopPreview .equippedEffectPhoto{width:76px;height:76px;object-fit:cover;border-radius:12px;border:1px solid #3285bb;box-shadow:0 0 15px #008cff55;flex-shrink:0}
@@ -273,7 +284,16 @@ function isLocal(){return !!modes[currentMode].local}
 function canAct(p){return !finished&&!locked&&turn===p&&(p===0||isLocal())}
 function currentUsed(p){return !!players[p].used}
 function alive(p){return p.hands.some(n=>n>0)}function norm(n){return n>=5?n%5:n}function status(t){$('status').textContent=t}
-function handHTML(p,h){let n=players[p].hands[h],enemy=p!==0;return `<button class="hand ${n===0?'dead':''} ${p===turn&&selected===h?'selected':''}" data-p="${p}" data-h="${h}" style="--glow:${enemy?'#ff657b':colors[equip.color]}" onclick="tap(${p},${h})"><small>${['LEFT','RIGHT','THIRD'][h]||'HAND'}</small>${handSVG(n,h,enemy)}<b>${n}</b></button>`}
+function handHTML(p,h){
+ let n=players[p].hands[h],enemy=p!==0;
+ // Both hands use the same equipped skin. Enemy uses the uncustomized human skin.
+ let skin=enemy?'human':equip.skin;
+ let mainArt=skinArt[skin]||skinArt.human;
+ let accessory=(!enemy&&equip.accessory!=='none')?accessoryArt[equip.accessory]:null;
+ let effect=(!enemy&&equip.effect!=='impact')?effectArt[equip.effect]:null;
+ let photo=`<div class="battleArt ${enemy?'enemyArt':'playerArt'}"><img class="battleSkin" src="${mainArt}" alt="${enemy?'人間の手':item('skin',skin)?.[1]||'装備中の手'}">${effect?`<img class="battleEffect" src="${effect}" alt="">`:''}${accessory?`<img class="battleAccessory" src="${accessory}" alt="">`:''}</div>`;
+ return `<button class="hand photoHand ${n===0?'dead':''} ${p===turn&&selected===h?'selected':''}" data-p="${p}" data-h="${h}" style="--glow:${enemy?'#ff657b':'#56dfff'}" onclick="tap(${p},${h})"><small>${['LEFT','RIGHT','THIRD'][h]||'HAND'}</small>${photo}<b>${n}</b></button>`;
+}
 function splitChoices(p){if(players[p].hands.length!==2)return [];let [a,b]=players[p].hands,sum=a+b,res=[];if(sum<2)return res;for(let l=0;l<=4;l++){let r=sum-l;if(r<0||r>4)continue;if(l===a&&r===b)continue;if(l===b&&r===a)continue;res.push([l,r])}return res}
 function render(){if(!$('battle').classList.contains('active'))return;$('turnInfo').textContent='TURN '+round;header();$('yourLabel').textContent=isLocal()?'PLAYER 1 HANDS':'YOUR HANDS';$('enemies').innerHTML=players.slice(1).map((p,i)=>`<div class="enemyGroup"><p class="teamLabel">${p.name}${alive(p)?'':' — KO'}</p><div class="handRow enemy ${p.hands.length===3?'threeHands':''}">${p.hands.map((_,h)=>handHTML(i+1,h)).join('')}</div></div>`).join('');$('playerHands').innerHTML=handHTML(0,0)+handHTML(0,1);let choices=splitChoices(0);$('splitOptions').innerHTML=canAct(0)?choices.length?choices.map(c=>`<button onclick="split(0,${c[0]},${c[1]})">${c[0]}・${c[1]}</button>`).join(''):'<span class="muted">現在は分裂できません</span>':'<span class="muted">相手のターン</span>';document.querySelectorAll('.skills button').forEach(b=>b.disabled=currentUsed(0)||!canAct(0));if(isLocal()){let c=splitChoices(1);$('p2TurnLabel').textContent=turn===1?'PLAYER 2 TURN':'PLAYER 2 WAIT';$('p2Splits').innerHTML=c.length?c.map(v=>`<button onclick="split(1,${v[0]},${v[1]})" ${!canAct(1)?'disabled':''}>分裂 ${v[0]}・${v[1]}</button>`).join(''):'<span style="font-size:10px">分裂なし</span>';$('localTopControls').querySelectorAll('.miniButtons:last-child button').forEach((b,i)=>b.disabled=i===4?!canAct(1):currentUsed(1)||!canAct(1))}}
 function cancelLocalSelection(){selected=null;status('選択解除');render()}
