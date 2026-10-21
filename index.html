@@ -10,7 +10,7 @@
 *{box-sizing:border-box}
 :root{--blue:#48cfff;--red:#ff6685;--gold:#ffd36a}
 html,body{margin:0;min-height:100%;background:#080d1b;color:white;font-family:system-ui,-apple-system,sans-serif}
-body{text-align:center}
+body{text-align:center;overflow-x:hidden}
 button{font:inherit;cursor:pointer;touch-action:manipulation}
 button:disabled{opacity:.32;cursor:default}
 .screen{display:none;min-height:100dvh;padding:18px 15px 35px}
@@ -33,40 +33,28 @@ h2{font-size:23px;letter-spacing:2px}
 
 /* ホーム画面 */
 #home{
- position:relative;
- isolation:isolate;
- min-height:100dvh;
- display:none;
- flex-direction:column;
+ position:relative;isolation:isolate;min-height:100dvh;
+ display:none;flex-direction:column;
  padding:calc(env(safe-area-inset-top) + 16px) 15px calc(env(safe-area-inset-bottom) + 20px);
- background:transparent;
- overflow:hidden;
+ background:transparent;overflow:hidden
 }
 #home.active{display:flex}
 #home::before{
- content:"";
- position:absolute;
- inset:0;
- z-index:-2;
+ content:"";position:absolute;inset:0;z-index:-2;
  background:
-  linear-gradient(
-   to bottom,
-   rgba(4,9,24,.82) 0%,
-   rgba(4,9,24,.55) 23%,
-   rgba(4,9,24,.12) 42%,
-   rgba(4,9,24,.05) 62%,
-   rgba(4,9,24,.70) 83%,
-   rgba(4,9,24,.94) 100%
-  ),
-  url("hero.PNG?v=20261021-14") center center / cover no-repeat;
+ linear-gradient(to bottom,
+ rgba(4,9,24,.82) 0%,
+ rgba(4,9,24,.55) 23%,
+ rgba(4,9,24,.12) 42%,
+ rgba(4,9,24,.05) 62%,
+ rgba(4,9,24,.70) 83%,
+ rgba(4,9,24,.94) 100%),
+ url("hero.PNG?v=20261021-15") center center / cover no-repeat
 }
 #home::after{
- content:"";
- position:absolute;
- inset:0;
- z-index:-1;
+ content:"";position:absolute;inset:0;z-index:-1;
  pointer-events:none;
- background:linear-gradient(90deg,rgba(0,85,185,.12),transparent 48%,rgba(190,0,35,.12));
+ background:linear-gradient(90deg,rgba(0,85,185,.12),transparent 48%,rgba(190,0,35,.12))
 }
 #home .topbar{width:100%;position:relative;z-index:2}
 #home h1{margin:clamp(35px,9vh,90px) 0 14px}
@@ -118,12 +106,114 @@ h2{font-size:23px;letter-spacing:2px}
 .enemyUnit{display:flex;flex-direction:column;flex:1 1 0;min-height:0;gap:3px}
 #playerHands{flex:1 1 0}
 .hint{font-size:10px;color:#8ea3c5;flex:0 0 auto;margin:0}
-.impact{position:fixed;width:85px;height:85px;transform:translate(-50%,-50%);pointer-events:none;z-index:100;border-radius:50%;background:radial-gradient(circle,#fff,#8cefff 25%,#258cff99 50%,transparent 75%);animation:impact .4s forwards}
-@keyframes impact{from{opacity:1;scale:.4}to{opacity:0;scale:2}}
-.hand.attacking{z-index:20;animation:attackMove .48s ease-in-out}
-.hand.defending{z-index:10;animation:defendMove .48s ease-in-out}
-@keyframes attackMove{0%,100%{transform:translate(0,0)}45%{transform:translate(var(--dx),var(--dy)) scale(1.08)}}
-@keyframes defendMove{0%,100%{transform:translateX(0)}30%{transform:translateX(-10px) rotate(-6deg)}60%{transform:translateX(10px) rotate(6deg)}}
+
+/* 強化した攻撃演出 */
+.hand.attacking{z-index:20;animation:attackMove .55s cubic-bezier(.2,.8,.2,1)}
+.hand.defending{z-index:10;animation:defendMove .5s ease-in-out}
+@keyframes attackMove{
+ 0%,100%{transform:translate(0,0) scale(1)}
+ 22%{transform:translate(calc(var(--dx)*-.09),calc(var(--dy)*-.09)) scale(.94)}
+ 57%{transform:translate(var(--dx),var(--dy)) scale(1.17)}
+ 76%{transform:translate(calc(var(--dx)*.35),calc(var(--dy)*.35)) scale(1.03)}
+}
+@keyframes defendMove{
+ 0%,100%{transform:translate(0,0) rotate(0)}
+ 22%{transform:translate(-13px,5px) rotate(-9deg)}
+ 45%{transform:translate(12px,-4px) rotate(8deg)}
+ 68%{transform:translate(-7px,2px) rotate(-4deg)}
+}
+#battle.shaking{animation:screenShake .35s linear}
+@keyframes screenShake{
+ 0%,100%{transform:translate(0,0)}
+ 12%{transform:translate(-9px,5px)}
+ 24%{transform:translate(9px,-6px)}
+ 36%{transform:translate(-7px,-4px)}
+ 48%{transform:translate(8px,5px)}
+ 60%{transform:translate(-5px,3px)}
+ 75%{transform:translate(4px,-2px)}
+}
+#effects{
+ position:fixed;inset:0;pointer-events:none;
+ overflow:hidden;z-index:1000
+}
+.hitFlash{
+ position:absolute;inset:0;
+ background:rgba(255,255,255,.65);
+ animation:flashFade .3s ease-out forwards
+}
+.hitFlash.ultimate{
+ background:radial-gradient(circle,#fff 0%,#b35bff99 45%,#45108c55 100%);
+ animation:flashFade .7s ease-out forwards
+}
+@keyframes flashFade{from{opacity:1}to{opacity:0}}
+.impact{
+ position:absolute;width:110px;height:110px;
+ margin:-55px 0 0 -55px;border-radius:50%;
+ background:radial-gradient(circle,#fff 0%,#e5ffff 12%,#69ddff 28%,#008cff66 55%,transparent 72%);
+ animation:impactGrow .55s ease-out forwards
+}
+@keyframes impactGrow{
+ from{opacity:1;transform:scale(.15)}
+ to{opacity:0;transform:scale(2.6)}
+}
+.shockwave{
+ position:absolute;width:40px;height:40px;
+ margin:-20px 0 0 -20px;border:4px solid #baf5ff;
+ border-radius:50%;box-shadow:0 0 25px #48cfff;
+ animation:shockGrow .55s ease-out forwards
+}
+@keyframes shockGrow{
+ from{opacity:1;transform:scale(.3)}
+ to{opacity:0;transform:scale(6)}
+}
+.spark{
+ position:absolute;width:6px;height:15px;
+ border-radius:4px;background:var(--spark-color,#8deaff);
+ box-shadow:0 0 12px var(--spark-color,#8deaff);
+ animation:sparkFly .65s ease-out forwards
+}
+@keyframes sparkFly{
+ from{opacity:1;transform:translate(-50%,-50%) rotate(var(--angle)) scale(1)}
+ to{opacity:0;transform:translate(calc(-50% + var(--sx)),calc(-50% + var(--sy))) rotate(var(--angle)) scale(.15)}
+}
+.effectText{
+ position:absolute;left:50%;top:43%;
+ width:100%;padding:0 12px;
+ transform:translate(-50%,-50%);
+ font-size:clamp(48px,14vw,85px);
+ font-weight:1000;font-style:italic;letter-spacing:2px;
+ text-shadow:0 0 14px currentColor,0 5px 8px #000;
+ animation:effectTextPop .9s ease-out forwards
+}
+.effectText.ko{color:#ff637b}
+.effectText.ultimateText{color:#dfb4ff;font-size:clamp(37px,11vw,72px)}
+@keyframes effectTextPop{
+ 0%{opacity:0;transform:translate(-50%,-50%) scale(2.4)}
+ 22%{opacity:1;transform:translate(-50%,-50%) scale(.9)}
+ 40%{transform:translate(-50%,-50%) scale(1.12)}
+ 65%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+ 100%{opacity:0;transform:translate(-50%,-60%) scale(1.08)}
+}
+.confetti{
+ position:absolute;top:-30px;width:9px;height:15px;
+ animation:confettiFall var(--duration,2.8s) linear forwards
+}
+@keyframes confettiFall{
+ from{transform:translateY(-30px) rotate(0deg);opacity:1}
+ to{transform:translateY(110vh) rotate(760deg);opacity:0}
+}
+#resultTitle.victoryAnimation{
+ animation:victoryPop 1.1s ease-out both
+}
+@keyframes victoryPop{
+ 0%{opacity:0;transform:scale(.25) rotate(-12deg);filter:brightness(3)}
+ 45%{opacity:1;transform:scale(1.2) rotate(4deg)}
+ 70%{transform:scale(.95)}
+ 100%{transform:scale(1)}
+}
+#resultTitle.victoryAnimation{
+ text-shadow:0 0 15px #ffe180,0 0 45px #ffb500,0 0 75px #ff7b00
+}
 @media(max-height:700px){
  #battle{gap:3px}
  .handGraphic{height:clamp(48px,10vh,75px)}
@@ -141,6 +231,8 @@ h2{font-size:23px;letter-spacing:2px}
 </style>
 </head>
 <body>
+
+<div id="effects" aria-hidden="true"></div>
 
 <section id="home" class="screen active">
  <div class="topbar">
@@ -279,27 +371,33 @@ function tone(freq,duration=.15,type="sine",volume=.06,delay=0){
  osc.connect(gain);gain.connect(audioContext.destination);
  osc.start(now);osc.stop(now+duration+.02);
 }
-function hitSound(){
+function hitSound(ko=false){
  if(!soundEnabled)return;
  initAudio();
  if(!audioContext)return;
- const ctx=audioContext,duration=.16;
+ const ctx=audioContext,duration=ko?.27:.16;
  const size=Math.floor(ctx.sampleRate*duration);
  const buffer=ctx.createBuffer(1,size,ctx.sampleRate);
  const data=buffer.getChannelData(0);
  for(let i=0;i<size;i++){
   const t=i/ctx.sampleRate;
-  data[i]=(Math.random()*2-1)*Math.exp(-t*28);
+  data[i]=(Math.random()*2-1)*Math.exp(-t*(ko?17:28));
  }
  const noise=ctx.createBufferSource();
  noise.buffer=buffer;
  const filter=ctx.createBiquadFilter();
- filter.type="lowpass";filter.frequency.value=1400;
- const gain=ctx.createGain();gain.gain.value=.27;
+ filter.type="lowpass";filter.frequency.value=ko?900:1400;
+ const gain=ctx.createGain();gain.gain.value=ko?.4:.27;
  noise.connect(filter);filter.connect(gain);gain.connect(ctx.destination);
  noise.start();
- tone(150,.13,"triangle",.13);
- tone(75,.18,"sine",.10,.015);
+ tone(ko?95:150,ko?.27:.13,"triangle",ko?.19:.13);
+ tone(ko?55:75,ko?.32:.18,"sine",.10,.015);
+}
+function ultimateSound(){
+ tone(250,.35,"sawtooth",.09);
+ tone(500,.4,"triangle",.09,.08);
+ tone(800,.4,"sawtooth",.07,.16);
+ tone(1200,.6,"triangle",.09,.24);
 }
 function bgmTick(){
  if(!soundEnabled||!audioContext)return;
@@ -341,6 +439,71 @@ document.addEventListener("pointerdown",()=>{
  if(soundEnabled)startBGM();
 },{once:true});
 
+/* 新しい視覚エフェクト */
+function addEffect(el,duration=1000){
+ $("effects").appendChild(el);
+ setTimeout(()=>el.remove(),duration);
+ return el;
+}
+function flash(ultimate=false){
+ const el=document.createElement("div");
+ el.className="hitFlash"+(ultimate?" ultimate":"");
+ addEffect(el,ultimate?750:350);
+}
+function shake(){
+ const el=$("battle");
+ el.classList.remove("shaking");
+ void el.offsetWidth;
+ el.classList.add("shaking");
+ setTimeout(()=>el.classList.remove("shaking"),380);
+}
+function explosion(x,y,color="#8deaff",strong=false){
+ const impact=document.createElement("div");
+ impact.className="impact";
+ impact.style.left=x+"px";
+ impact.style.top=y+"px";
+ addEffect(impact,650);
+
+ const wave=document.createElement("div");
+ wave.className="shockwave";
+ wave.style.left=x+"px";
+ wave.style.top=y+"px";
+ addEffect(wave,650);
+
+ const count=strong?26:15;
+ for(let i=0;i<count;i++){
+  const angle=Math.PI*2*i/count+Math.random()*.3;
+  const distance=(strong?100:65)+Math.random()*65;
+  const spark=document.createElement("div");
+  spark.className="spark";
+  spark.style.left=x+"px";
+  spark.style.top=y+"px";
+  spark.style.setProperty("--sx",Math.cos(angle)*distance+"px");
+  spark.style.setProperty("--sy",Math.sin(angle)*distance+"px");
+  spark.style.setProperty("--angle",(angle*180/Math.PI)+"deg");
+  spark.style.setProperty("--spark-color",i%3===0?"#ffffff":color);
+  addEffect(spark,750);
+ }
+}
+function bigText(message,type="ko"){
+ const el=document.createElement("div");
+ el.className="effectText "+type;
+ el.textContent=message;
+ addEffect(el,1000);
+}
+function confetti(){
+ const colors=["#ffd86b","#ffffff","#55dfff","#ff6685","#b48aff"];
+ for(let i=0;i<85;i++){
+  const piece=document.createElement("div");
+  piece.className="confetti";
+  piece.style.left=Math.random()*100+"%";
+  piece.style.background=colors[i%colors.length];
+  piece.style.setProperty("--duration",(2+Math.random()*2)+"s");
+  piece.style.animationDelay=Math.random()*.7+"s";
+  addEffect(piece,4900);
+ }
+}
+
 /* 画面 */
 function renderHeader(){
  $("homeCoins").textContent="COINS "+coins;
@@ -361,6 +524,7 @@ $("modeList").innerHTML=modes.map((m,i)=>`
 
 function startGame(i){
  gameToken++;
+ $("effects").innerHTML="";
  currentMode=i;
  const m=modes[i];
  players=[{name:"YOU",hands:[1,m.solo?0:1]}];
@@ -501,27 +665,35 @@ function dragEnd(e){
  selected=null;attack(0,from,p,h);
 }
 
-/* 攻撃アニメーション */
-function animateAttack(from,fh,to,th,callback){
+/* 強化版攻撃アニメーション */
+function animateAttack(from,fh,to,th,ko,callback){
  const a=document.querySelector(`.hand[data-p="${from}"][data-h="${fh}"]`);
  const b=document.querySelector(`.hand[data-p="${to}"][data-h="${th}"]`);
  if(!a||!b){callback();return}
  const ar=a.getBoundingClientRect(),br=b.getBoundingClientRect();
  const ax=ar.left+ar.width/2,ay=ar.top+ar.height/2;
  const bx=br.left+br.width/2,by=br.top+br.height/2;
- a.style.setProperty("--dx",(bx-ax)*.72+"px");
- a.style.setProperty("--dy",(by-ay)*.72+"px");
+
+ a.style.setProperty("--dx",(bx-ax)*.85+"px");
+ a.style.setProperty("--dy",(by-ay)*.85+"px");
  a.classList.add("attacking");
+
+ const token=gameToken;
  setTimeout(()=>{
+  if(token!==gameToken||finished)return;
   b.classList.add("defending");
-  const impact=document.createElement("div");
-  impact.className="impact";
-  impact.style.left=bx+"px";impact.style.top=by+"px";
-  document.body.appendChild(impact);
-  hitSound();vibrate([65,30,45]);
-  setTimeout(()=>impact.remove(),450);
- },190);
- setTimeout(callback,560);
+  explosion(bx,by,to===0?"#60dfff":"#ff6887",ko);
+  flash();
+  shake();
+  hitSound(ko);
+  vibrate(ko?[80,30,80]:[65,30,45]);
+  if(ko)bigText("K.O.!");
+ },285);
+
+ setTimeout(()=>{
+  if(token!==gameToken||finished)return;
+  callback();
+ },650);
 }
 
 /* 攻撃処理 */
@@ -529,15 +701,18 @@ function attack(from,fh,to,th){
  if(locked||finished)return;
  if(from===to&&fh===th)return;
  if(!players[from].hands[fh]||!players[to].hands[th])return;
+
  locked=true;
  const power=players[from].hands[fh];
  const before=players[to].hands[th];
+ const after=normalize(before+power);
+ const ko=after===0;
  const token=gameToken;
+
  status(players[from].name+" ATTACK!");
- animateAttack(from,fh,to,th,()=>{
+ animateAttack(from,fh,to,th,ko,()=>{
   if(token!==gameToken||finished)return;
-  players[to].hands[th]=normalize(before+power);
-  const after=players[to].hands[th];
+  players[to].hands[th]=after;
   selected=null;
   status(players[from].name+" → "+(from===to?"OWN HAND":players[to].name)+"  "+before+" → "+(after||"KO"));
   render();
@@ -545,7 +720,7 @@ function attack(from,fh,to,th){
    if(token!==gameToken||finished)return;
    if(checkEnd())return;
    nextTurn(from);
-  },300);
+  },ko?500:300);
  });
 }
 
@@ -641,20 +816,33 @@ function endGame(win){
  const reward=win?modes[currentMode].enemies*50+25:0;
  coins+=reward;
  localStorage.setItem("fbCoins",coins);
- $("resultTitle").textContent=win?"VICTORY":"DEFEAT";
- $("resultTitle").style.color=win?"#65e6ff":"#ff6486";
+
+ $("resultTitle").textContent=win?"VICTORY!":"DEFEAT";
+ $("resultTitle").style.color=win?"#ffe07b":"#ff6486";
+ $("resultTitle").classList.remove("victoryAnimation");
  $("resultMessage").textContent=win?"敵を撃破！":"次こそ勝利を！";
  $("reward").textContent="獲得コイン +"+reward;
+
  if(win){
   tone(523,.2,"triangle",.08);
   tone(659,.2,"triangle",.08,.16);
   tone(784,.4,"triangle",.09,.32);
+  tone(1046,.7,"triangle",.08,.55);
  }else{
   tone(250,.35,"sawtooth",.05);
   tone(140,.5,"triangle",.06,.2);
  }
+
  const token=gameToken;
- setTimeout(()=>{if(token===gameToken)show("result")},400);
+ setTimeout(()=>{
+  if(token!==gameToken)return;
+  show("result");
+  if(win){
+   void $("resultTitle").offsetWidth;
+   $("resultTitle").classList.add("victoryAnimation");
+   confetti();
+  }
+ },700);
 }
 
 /* 必殺技 */
@@ -664,6 +852,7 @@ function skill(type){
  const active=hands.map((n,h)=>({n,h})).filter(x=>x.n);
  if(!active.length)return;
  const h=selected!==null&&hands[selected]?selected:active[0].h;
+
  if(type==="clone"){
   const empty=hands.indexOf(0);
   if(empty<0){status("復活には0本の手が必要！");return}
@@ -685,12 +874,21 @@ function skill(type){
    p.hands.forEach((n,k)=>{if(n)p.hands[k]=normalize(n+1)});
   });
  }
+
  used=true;selected=null;
- tone(900,.25,"sawtooth",.07);
- tone(1200,.35,"triangle",.06,.1);
+ ultimateSound();
+ flash(true);
+ shake();
+ bigText("ULTIMATE!","ultimateText");
+ explosion(window.innerWidth/2,window.innerHeight*.45,"#c68bff",true);
  vibrate([40,40,60]);
  status("必殺技発動！ 続けて攻撃できる！");
- render();checkEnd();
+ render();
+
+ const token=gameToken;
+ setTimeout(()=>{
+  if(token===gameToken&&!finished)checkEnd();
+ },700);
 }
 
 /* ショップ */
@@ -720,7 +918,9 @@ function buy(id){
 }
 function confirmQuit(){
  if(confirm("バトルを終了しますか？")){
-  gameToken++;finished=true;show("home");
+  gameToken++;finished=true;
+  $("effects").innerHTML="";
+  show("home");
  }
 }
 renderHeader();
